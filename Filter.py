@@ -1,13 +1,13 @@
 class Filter:
+	# Filters that should not be changed by the user.
 	SEVEN_DIRTY_WORDS = ("fuck", "shit", "piss", "cunt", "cocksucker", "motherfucker", "tits")
 	COMMON_SWEAR_WORDS = ("ass", "dick", "pussy", "bitch")
+	# Filter that can be changed by the user
 	__customFilterWords = set()
-
 	# fullFilter is all current filtered words
 	__fullFilter = set()
+	# Filter is a singleton class so it should have a ref to itself
 	__instance = None
-
-	#
 
 	def __init__(self):
 		if Filter.__instance != None:
