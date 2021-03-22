@@ -1,4 +1,5 @@
 import lyricsgenius
+from classes import Filter
 
 if __name__ == "__main__":
     #print("Welcome To GrooveSweeper!")
