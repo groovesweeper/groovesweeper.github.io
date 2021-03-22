@@ -31,4 +31,6 @@ class Filter:
 
 	def removeWord(word):
 		# TODO Implement
-		return False
+		return
+
+	print("test")
