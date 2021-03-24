@@ -1,6 +1,8 @@
 import os
 import lyricsgenius
 import Filter
+import Song
+import Playlist
 
 if __name__ == "__main__":
 	#print("Welcome To GrooveSweeper!")
@@ -16,3 +18,4 @@ if __name__ == "__main__":
 			(key, val) = line.split(":")
 			client_details[key] = val
 	genius = lyricsgenius.Genius(client_details["CLIENT_TOKEN"])
+	
