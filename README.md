@@ -2,4 +2,3 @@ This program relies on the package lyricsgenius by John Miller (https://github.c
 
 Dependencies:
 lyricsgenius via `pip install lyricsgenius`
-python-decouple via `pip install python-decouple`
