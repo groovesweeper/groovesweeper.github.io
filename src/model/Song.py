@@ -2,99 +2,121 @@ from __init__ import *
 from Filter import *
 from main import *
 from Playlist import *
-import sys
 
 
 class Song:
-    # Name of the song query as a string
+    """
+    A class used to determine whether or not a song is explicit or not
+
+    ...
+
+    Attributes
+    ----------
+    __name : string
+        Name of the song being checked for explicit words
+    __artist : string
+        Songs from this artist are checked for explicit words
+    __lyrics : list
+        Contains all words in the song lyrics
+    __explicitWords : set
+        Contains one of each explicit word found in song lyrics
+    __url : string
+        Link to the song lyrics?
+
+    Methods
+    -------
+    getName() :
+        returns song name
+    getArtist() :
+        returns artist name
+    ExplicitWords() :
+        Checks each word in __lyrics. If that word is also in __explicitWords, it is added to a set. Set is returned.
+    getNumOfExplicitWords() :
+        Returns the length of __explicitWords
+    isExplicit() :
+        If __explicitWords contains words, returns True indicating the song is not clean. Otherwise, false.
+    filterSong() :
+        Adds words from Filter.getInstance() to __explicitWords set.
+
+    """
     __name = str()
-    # Name of the artist query as a string
     __artist = str()
-    # List of all strings in a song
     __lyrics = list()
-    # Set of all filtered explicit words in the song
     __explicitWords = set()
-    # URL of the song?
     __url = str()
 
-    """
-    If the song or artist lists are not empty a query is initiated.
-    If the song or artist lists are empty, the user is asked to query.
-    If an artist is queried, user chooses a song from the list to query.
-    """
-
     def __init__(self, lyrics, artist, name, url):
+        """
+        Initializes variables used in following methods
+        """
         self.__lyrics = lyrics
         self.__artist = artist
         self.__name = name
         self.__url = url
 
-    # file of selected song is returned as a list of strings
-    @staticmethod
-    def __parseLyrics(self, __lyrics):
-        """
-        original_stdout = sys.stdout
-        with open('lyrics.txt', 'w') as f:
-            sys.stdout = f
-            print(genius.lyrics("happy", "pharrell"))
-            sys.stdout = original_stdout
-        # get full output of lyrics???
-        # for line in file:
-        # eliminate punctuation
-        # parse by space
-        # append words to a list
-        """
-        return self.__lyrics
-
-    @staticmethod
-    # asks user to input a song name
     def getName(self):
         """
-        if Song.__name is None:
-            song_name = input("Enter a song name: ").strip()
-            Song.__name.append(song_name)
-        else:
-            Song()
+        Returns
+        -------
+            Name of song as instance
         """
         return self.__name
 
-    @staticmethod
-    # asks user to input an artist name
     def getArtist(self):
         """
-        if Song.__artist is None:
-            artist_name = input("Enter an artist name: ").strip()
-            Song.__artist.append(artist_name)
-        else:
-            Song()
+        Returns
+        -------
+            Name of artist as instance
         """
         return self.__artist
 
-    # Finds explicit words in "__parseLyrics" based on Filter class; adds to __explicitWords
-    def ExplicitWords(self, ):
+    def ExplicitWords(self):
         """
-        for words in self.__lyrics:
-
-        return self.__explicitWords
+        Adds explicit words from __lyrics to set if found in __explicitWords
+        Returns
+        -------
+        set
+            A set of explicit words from song is returned.
+            If none, empty set is returned.
         """
+        explicit = set()
+        for word in self.__lyrics:
+            if word in self.__explicitWords:
+                explicit.add(word)
+                return explicit
+        return explicit
 
-    # Returns count of _explicitWords
     def getNumOfExplicitWords(self):
-        num = 0
-        num = len(self.__explicitWords)
-        return num
+        """
+        Returns
+        -------
+        int
+            Number of words in __explicitWords
+        """
+        return len(self.__explicitWords)
 
-    # Returns True if _explicitWords set is not empty; else False
     def isExplicit(self):
         """
-        explicit = False
-        for song in self.
-            if
+        If words populate __explicitWords, the song instance is considered explicit
+        Returns
+        -------
+        bool
+            True if __explicitWords is not empty.
+            False, otherwise.
         """
-        return
+        if len(self.__explicitWords) >= 1:
+            return True
+        return False
 
-    # Returns instance of filtered word if found in __parseLyrics
-    def filterSong(self, _instance):
-        # TODO something
+    def filterSong(self):
+        """
+        Checks if words in lyrics are also in Filter.getInstance().
+        Adds those words to __explicitWords.
+        Returns
+        -------
+            None
+        """
+        for word in self.__lyrics:
+            if word in Filter.getInstance():
+                self.__explicitWords.add(word)
         return
-
