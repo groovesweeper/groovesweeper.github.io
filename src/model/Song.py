@@ -26,13 +26,17 @@ class Song:
     getArtist() :
         Returns artist name
     getExplicitWords() :
-        Checks each word in __lyrics. If that word is also in __explicitWords, it is added to a set. Set is returned.
+        Gets the explicit words in the song.
     getNumOfExplicitWords() :
-        Returns the length of __explicitWords
+        Returns the number of explicit words in the song.
     isExplicit() :
-        If __explicitWords contains words, returns True indicating the song is not clean. Otherwise, false.
+        If __explicitWords contains words, returns True indicating the song is
+		not clean. Otherwise, false.
     filterSong() :
-        Adds words from Filter.getInstance() to __explicitWords set.
+        Filters a song for explicit words and adds those words to __explicitWords.
+		When using this function, you can assume that it is the first time
+		filtering the song and explicitWords set will be empty.
+
 
     """
     __name = str()
@@ -55,7 +59,7 @@ class Song:
         """
         Returns
         -------
-            Name of song as instance
+            Name of song.
         """
         return self.__name
 
@@ -63,7 +67,7 @@ class Song:
         """
         Returns
         -------
-            Name of artist as instance
+            Name of artist.
         """
         return self.__artist
 
@@ -84,6 +88,8 @@ class Song:
 
     def getNumOfExplicitWords(self):
         """
+		Gets the number of explicit words in the song.
+
         Returns
         -------
         int
@@ -93,25 +99,27 @@ class Song:
 
     def isExplicit(self):
         """
-        If words populate __explicitWords, the song instance is considered explicit
+        If __explicitWords is not empty, the song instance is considered explicit.
         Returns
         -------
-        bool
+        boolean
             True if __explicitWords is not empty.
             False, otherwise.
         """
-        if len(self.__explicitWords) >= 1:
+        if len(self.__explicitWords) > 0:
             return True
         return False
 
     def filterSong(self):
         """
-        Checks if words in lyrics are also in Filter.getInstance().
-        Adds those words to __explicitWords.
+        Filters a song for explicit words and adds those words to __explicitWords.
+		When using this function, you can assume that it is the first time
+		filtering the song and explicitWords set will be empty.
         Returns
         -------
             None
         """
+		self.__explicitWords = set()
         filter = Filter.getInstance()
         fullFilter = filter.getFullFilter()
         for word in self.__lyrics:
