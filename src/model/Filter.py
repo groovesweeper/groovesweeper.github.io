@@ -53,9 +53,9 @@ class Filter:
 		if Filter.__instance != None:
 			raise Exception("This class is a singleton! Call getInstance() instead.")
 		else:
-			for word in SEVEN_DIRTY_WORDS:
+			for word in self.SEVEN_DIRTY_WORDS:
 				Filter.__fullFilter.add(word)
-			for word in COMMON_SWEAR_WORDS:
+			for word in self.COMMON_SWEAR_WORDS:
 				Filter.__fullFilter.add(word)
 			Filter.__instance = self
 

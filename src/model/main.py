@@ -2,8 +2,9 @@
 import os
 import lyricsgenius
 import requests
+
 # Custom classes
-import Filter
+from Filter import *
 import Song
 import Playlist
 
@@ -32,7 +33,7 @@ if __name__ == "__main__":
 			(key, val) = line.split(":")
 			client_details[key] = val
 	genius = lyricsgenius.Genius(client_details["CLIENT_TOKEN"])
-	filter = Filter.Filter()
+	filter = Filter.getInstance()
 
 	while True:
 		# Main engine of the code. This will all be UI features on the main site.
