@@ -115,7 +115,7 @@ class Filter:
 		if word in self.__customFilterWords:
 			self.__customFilterWords.remove(word)
 			removed = True
-		if word in self.__fullFilterWords:
+		if word in self.__fullFilter:
 			self.__fullFilter.remove(word)
 			removed = True
 		return removed

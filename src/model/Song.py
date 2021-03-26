@@ -119,7 +119,7 @@ class Song:
         -------
             None
         """
-		self.__explicitWords = set()
+        self.__explicitWords = set()
         filter = Filter.getInstance()
         fullFilter = filter.getFullFilter()
         for word in self.__lyrics:
