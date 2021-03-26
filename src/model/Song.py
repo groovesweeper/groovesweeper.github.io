@@ -1,8 +1,4 @@
-from __init__ import *
-from Filter import *
-from main import *
-from Playlist import *
-
+from Filter import Filter
 
 class Song:
     """
@@ -16,20 +12,20 @@ class Song:
         Name of the song being checked for explicit words
     __artist : string
         Songs from this artist are checked for explicit words
-    __lyrics : list
+    __lyrics : list of strings
         Contains all words in the song lyrics
     __explicitWords : set
         Contains one of each explicit word found in song lyrics
     __url : string
-        Link to the song lyrics?
+        Link to the song lyrics on Genius website
 
     Methods
     -------
     getName() :
-        returns song name
+        Returns song name
     getArtist() :
-        returns artist name
-    ExplicitWords() :
+        Returns artist name
+    getExplicitWords() :
         Checks each word in __lyrics. If that word is also in __explicitWords, it is added to a set. Set is returned.
     getNumOfExplicitWords() :
         Returns the length of __explicitWords
@@ -53,6 +49,7 @@ class Song:
         self.__artist = artist
         self.__name = name
         self.__url = url
+        self.filterSong()
 
     def getName(self):
         """
@@ -70,20 +67,19 @@ class Song:
         """
         return self.__artist
 
-    def ExplicitWords(self):
+    def getExplicitWords(self):
         """
-        Adds explicit words from __lyrics to set if found in __explicitWords
+        Gets the set of explicit words in the song.
+
         Returns
         -------
         set
-            A set of explicit words from song is returned.
-            If none, empty set is returned.
+			A deep copy of the __explicitWords set
         """
         explicit = set()
-        for word in self.__lyrics:
-            if word in self.__explicitWords:
-                explicit.add(word)
-                return explicit
+        for word in self.__explicitWords:
+            explicit.add(word)
+
         return explicit
 
     def getNumOfExplicitWords(self):
@@ -116,7 +112,19 @@ class Song:
         -------
             None
         """
+        filter = Filter.getInstance()
+        fullFilter = filter.getFullFilter()
         for word in self.__lyrics:
-            if word in Filter.getInstance():
+            if word in fullFilter:
                 self.__explicitWords.add(word)
         return
+
+if __name__ == '__main__':
+	# testing to see there is no rep exposure
+	song = Song(["ass", "piss", "Hello"], "Me", "test", "www.test.com")
+	print(song.isExplicit())
+	explicitWords = song.getExplicitWords()
+	print(explicitWords)
+	explicitWords.remove("piss")
+	explicitWords2 = song.getExplicitWords()
+	print(explicitWords2)
