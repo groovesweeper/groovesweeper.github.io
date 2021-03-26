@@ -33,16 +33,12 @@ class Filter:
 		__customFilterWords.
 
 	getSevenDirtyWords() :
-		Gets the SEVEN_DIRTY_WORDS tuple.
+		Gets the __SEVEN_DIRTY_WORDS tuple.
 
 	getCommonSwearWords() :
-		Gets the COMMON_SWEAR_WORDS tuple.
+		Gets the __COMMON_SWEAR_WORDS tuple.
 
 	"""
-	SEVEN_DIRTY_WORDS = ("fuck", "shit", "piss", "cunt", "cocksucker", "motherfucker", "tits")
-	COMMON_SWEAR_WORDS = ("ass", "dick", "pussy", "bitch")
-	__customFilterWords = set()
-	__fullFilter = set()
 	__instance = None
 
 	def __init__(self):
@@ -53,10 +49,15 @@ class Filter:
 		if Filter.__instance != None:
 			raise Exception("This class is a singleton! Call getInstance() instead.")
 		else:
-			for word in self.SEVEN_DIRTY_WORDS:
-				Filter.__fullFilter.add(word)
-			for word in self.COMMON_SWEAR_WORDS:
-				Filter.__fullFilter.add(word)
+			self.__customFilterWords = set()
+			self.__fullFilter = set()
+			self.__SEVEN_DIRTY_WORDS = ("fuck", "shit", "piss", "cunt", "cocksucker", "motherfucker", "tits")
+			self.__COMMON_SWEAR_WORDS = ("ass", "dick", "pussy", "bitch")
+			for word in self.__SEVEN_DIRTY_WORDS:
+				self.__fullFilter.add(word)
+			for word in self.__COMMON_SWEAR_WORDS:
+				self.__fullFilter.add(word)
+
 			Filter.__instance = self
 
 	@staticmethod
@@ -87,9 +88,9 @@ class Filter:
 			True if the word was added, False if the word was not added because it
 			was already present.
 		"""
-		if word not in __fullFilter:
-			__customFilterWords.add(word)
-			__fullFilter.add(word)
+		if word not in self.__fullFilter:
+			self.__customFilterWords.add(word)
+			self.__fullFilter.add(word)
 			return True
 		return False
 
@@ -111,30 +112,44 @@ class Filter:
 			has not been removed because it was not present.
 		"""
 		removed = False
-		if word in __customFilterWords:
-			__customFilterWords.remove(word)
+		if word in self.__customFilterWords:
+			self.__customFilterWords.remove(word)
 			removed = True
-		if word in __fullFilterWords:
-			__fullFilter.remove(word)
+		if word in self.__fullFilterWords:
+			self.__fullFilter.remove(word)
 			removed = True
 		return removed
 
 	def getSevenDirtyWords(self):
 		"""
-		Gets the SEVEN_DIRTY_WORDS tuple
+		Gets the __SEVEN_DIRTY_WORDS tuple
 		Returns
 		-------
 		tuple
-			SEVEN_DIRTY_WORDS
+			__SEVEN_DIRTY_WORDS
 		"""
-		return SEVEN_DIRTY_WORDS
+		return self.__SEVEN_DIRTY_WORDS
 
 	def getCommonSwearWords(self):
 		"""
-		Gets the COMMON_SWEAR_WORDS tuple
+		Gets the __COMMON_SWEAR_WORDS tuple
 		Returns
 		-------
 		tuple
-			COMMON_SWEAR_WORDS
+			__COMMON_SWEAR_WORDS
 		"""
-		return COMMON_SWEAR_WORDS
+		return self.__COMMON_SWEAR_WORDS
+
+	def getFullFilter(self):
+		"""
+		Gets the __fullFilter set
+
+		Returns
+		-------
+		set
+			a deepcopy of the __fullFilter
+		"""
+		fullFilter = set()
+		for word in self.__fullFilter:
+			fullFilter.add(word)
+		return fullFilter
