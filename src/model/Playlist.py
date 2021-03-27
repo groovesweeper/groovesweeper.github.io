@@ -54,7 +54,7 @@ class Playlist:
 		list
 			__songList
 		"""
-		return self.__songList
+		return copy.deepcopy(self.__songList)
 
 	def isExplicit(self):
 		"""
@@ -67,7 +67,7 @@ class Playlist:
 			True if any song is explicit, false otherwise.
 		"""
 		explicit = False
-		for song in self.getSongs():
+		for song in self.__songList:
 			if song.isExplicit():
 				self.__numOfExplicit += 1
 				explicit = True
@@ -83,15 +83,16 @@ class Playlist:
 		Playlist object
 			Returns a copy of the current playlist, excluding any explicit songs.
 		"""
-		cleanPlaylist = copy.deepcopy(self)
-		cleanSongList = cleanPlaylist.getSongs()
+
+		cleanSongList = self.getSongs()
 		anyExplicit = False
 		for song in cleanSongList:
 			if song.isExplicit():
 				cleanSongList.remove(song)
 				anyExplicit = True
 		if anyExplicit:
-			return cleanPlaylist
+			cleanPlayList = Playlist(cleanSongList, self.__name)
+			return cleanPlayList
 		else:
 			return self
 
@@ -100,7 +101,7 @@ class Playlist:
 		Refilters all songs in the current playlist by calling filterSong in
 		Song class
 		"""
-		for song in self.getSongs():
+		for song in self.__songList:
 			Song.Song.filterSong(Filter.getInstance())
 
 if __name__ == '__main__':
@@ -110,5 +111,5 @@ if __name__ == '__main__':
 	playlist = Playlist([s1, s2], "test")
 	print(playlist.isExplicit())
 	cleanList = playlist.getCleanPlaylist()
-	print(len(cleanList.getSongs()))
-	print(cleanList.getSongs()[0].getName())
+	print("cleanlist length should be 1: " + str(len(cleanList.getSongs()) == 1))
+	print("Playlist length should still be 2: " + str(len(playlist.getSongs()) == 2))
