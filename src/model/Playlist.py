@@ -102,10 +102,11 @@ class Playlist:
 		Song class
 		"""
 		for song in self.__songList:
-			Song.Song.filterSong(Filter.getInstance())
+			Song.filterSong(song)
 
 if __name__ == '__main__':
 	# testing all functions
+	print("TESTING getCleanPlaylist() and isExplicit() and getSongs(): ")
 	s1 = Song("ass piss Hello", "Me", "test", "www.test.com")
 	s2 = Song("clean song", "Me", "Clean song test", "www.test.com")
 	playlist = Playlist([s1, s2], "test")
@@ -113,3 +114,13 @@ if __name__ == '__main__':
 	cleanList = playlist.getCleanPlaylist()
 	print("cleanlist length should be 1: " + str(len(cleanList.getSongs()) == 1))
 	print("Playlist length should still be 2: " + str(len(playlist.getSongs()) == 2))
+
+	print("TESTING reFilterSongs(): making \'clean\' an explicit word")
+	filter = Filter.getInstance()
+	filter.addWord("clean")
+	cleanList.reFilterSongs()
+	playlist.reFilterSongs()
+	print(cleanList.isExplicit())
+	print("cleanlist length should be 1: " + str(len(cleanList.getSongs()) == 1))
+	cleanedCleanList = cleanList.getCleanPlaylist()
+	print("cleaned cleanlist length should be 0: " + str(len(cleanedCleanList.getSongs()) == 0))
