@@ -12,7 +12,7 @@ class Song:
         Name of the song being checked for explicit words
     __artist : string
         Songs from this artist are checked for explicit words
-    __lyrics : list of strings
+    __lyrics : string
         Contains all words in the song lyrics
     __explicitWords : set
         Contains one of each explicit word found in song lyrics
@@ -21,6 +21,8 @@ class Song:
 
     Methods
     -------
+    getLyrics():
+        Returns song's lyrics
     getName() :
         Returns song name
     getArtist() :
@@ -54,6 +56,15 @@ class Song:
         self.__name = name
         self.__url = url
         self.filterSong()
+
+    def getLyrics(self):
+        """
+        Returns
+        -------
+            Song's lyrics
+        """
+
+        return self.__lyrics
 
     def getName(self):
         """
@@ -122,14 +133,15 @@ class Song:
         self.__explicitWords = set()
         filter = Filter.getInstance()
         fullFilter = filter.getFullFilter()
-        for word in self.__lyrics:
+        song_split = self.__lyrics.split()
+        for word in song_split:
             if word in fullFilter:
                 self.__explicitWords.add(word)
         return
 
 if __name__ == '__main__':
 	# testing to see there is no rep exposure
-	song = Song(["ass", "piss", "Hello"], "Me", "test", "www.test.com")
+	song = Song("ass piss Hello", "Me", "test", "www.test.com")
 	print(song.isExplicit())
 	explicitWords = song.getExplicitWords()
 	print(explicitWords)

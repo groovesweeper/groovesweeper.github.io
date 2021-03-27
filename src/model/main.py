@@ -5,7 +5,7 @@ import json
 
 # Custom classes
 from Filter import *
-import Song
+from Song import *
 import Playlist
 
 def add2Filter(wordstr, filt):
@@ -19,6 +19,19 @@ def removeFromFilter(wordstr, filt):
 	for cuss in wordstr:
 		filt.removeWord(cuss.strip().lower())
 	return
+
+def displayHits(hits):
+	for i in range(len(hits)):
+		j=i+1
+		print("{}: {}".format(j, hits[i]['result']['full_title']))
+		if (j % 10 == 0 or j == len(hits)):
+			cmd = input("{} more results.\nEnter your song's number to see it's lyrics or anything else to show more results: ".format((len(hits)-i)))
+			if (cmd.isnumeric()):
+				while (cmd.isnumeric() and int(cmd) > j):
+					cmd = input("You haven't even seen that, how do you know it's the song you want!? Try again: ")
+				return int(cmd) - 1
+	print("No more results for that search term")
+	return -1
 
 if __name__ == "__main__":
 	'''
@@ -59,8 +72,16 @@ if __name__ == "__main__":
 
 		elif (cmd.lower() == "search"):
 			cmd = input ("Enter a term to search for: ")
-			ret = genius.search(cmd)
-			#print(ret)
+			ret = genius.search(cmd, per_page=50)['hits']
+			ind = displayHits(ret)
+			if (ind > -1):
+				ret = ret[ind]['result']
+				id = ret['id']
+				result = Song(genius.lyrics(song_id=id,remove_section_headers=True), ret['primary_artist']['name'], ret['full_title'], ret['url'])
+				print("{} has {} explicit words, {}".format(result.getName(), result.getNumOfExplicitWords(), result.getExplicitWords()))
+				cmd = input("Enter 'Lyrics' to see the lyrics, enter anything else to go back: ")
+				if (cmd.lower() == 'lyrics'):
+					print(result.getLyrics())
 			continue
 
 		elif (cmd.lower() == "quit"):
