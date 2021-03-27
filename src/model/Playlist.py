@@ -1,6 +1,4 @@
-from __init__ import *
 from Filter import *
-from main import *
 from Song import *
 import copy
 
@@ -12,89 +10,105 @@ class Playlist:
 
 	Attributes
 	----------
-	_songList: List
+	__songList: List
 		List of all songs in a playlist
-	_name: String
+	__name: String
 		Name of the playlist
-	_numOfExplicit
+	__numOfExplicit
 		Number of explicit songs in the playlist
 
 	Methods
 	-------
 	getSongs() :
-		returns the list of songs in the current playlist
+		Gets the list of songs in the current playlist
 	isExplicit() :
-		returns true if any song in the playlist is explicit, returns false otherwise. Also increments
-		_numOfExplicit.
+		Returns true if any song in the playlist is explicit, returns false
+		otherwise. Also increments __numOfExplicit.
 	getCleanPlaylist() :
-		creates a copy of the current playlist and removes all explicit songs. Returns that new clean playlist.
+		Creates a copy of the current playlist and removes all explicit songs.
+		Returns that new clean playlist.
 	reFilterSongs() :
-		re filters all songs in the current playlist by calling filterSong in Song class
+		Refilters all songs in the current playlist by calling filterSong in
+		Song class
 
 	"""
-    
-    _songList = list()
-    _name = ""
-    _numOfExplicit = 0
 
-    def __init__(self, songList, name):
-    	"""
+	__songList = list()
+	__name = ""
+	__numOfExplicit = 0
+
+	def __init__(self, songList, name):
+		"""
 		Playlist constructor:
-			Initializes the playlist object and populates _songList and _name
-    	"""
-        self._songList = songList
-        self._name = name
+			Initializes the playlist object and populates __songList and __name
+		"""
+		self.__songList = songList
+		self.__name = name
 
-    def getSongs(self):
-    	"""
-		returns the list of songs in the current playlist
+	def getSongs(self):
+		"""
+		Gets the list of songs in the current playlist
+
 		Returns
 		-------
 		list
-			_songList
-    	"""
-        return self._songList
+			__songList
+		"""
+		return self.__songList
 
-    def isExplicit(self):
-    	"""
-		returns true if any song in the playlist is explicit, returns false otherwise. Also increments
-		_numOfExplicit.
+	def isExplicit(self):
+		"""
+		Returns true if any song in the playlist is explicit, returns false
+		otherwise. Also increments __numOfExplicit.
+
 		Returns
 		-------
 		boolean
 			True if any song is explicit, false otherwise.
-    	"""
-        explicit = False
-        for song in self.getSongs():
-            if song.isExplicit():
-                self._numOfExplicit += 1
-                explicit = True
-        return explicit
+		"""
+		explicit = False
+		for song in self.getSongs():
+			if song.isExplicit():
+				self.__numOfExplicit += 1
+				explicit = True
+		return explicit
 
-    def getCleanPlaylist(self):
-    	"""
-		creates a copy of the current playlist and removes all explicit songs. Returns that new clean playlist.
+	def getCleanPlaylist(self):
+		"""
+		Creates a copy of the current playlist and removes all explicit songs.
+		Returns that new clean playlist.
+
 		Returns
 		-------
 		Playlist object
-			returns the copy of the current playlist, excluding any 
-    	"""
-        # creates a copy of the current playlist and removes all explicit songs. Returns that new clean playlist.
-        cleanPlaylist = copy.deepcopy(self)
-        cleanSongList = cleanPlaylist.getSongs()
-        anyExplicit = False 
-        for song in cleanSongList:
-            if song.isExplicit():
-                cleanSongList.remove(song)
-                anyExplicit = True
-        if anyExplicit:
-        	return cleanPlaylist
-        else:
-        	return self
+			Returns a copy of the current playlist, excluding any explicit songs.
+		"""
+		cleanPlaylist = copy.deepcopy(self)
+		cleanSongList = cleanPlaylist.getSongs()
+		anyExplicit = False
+		for song in cleanSongList:
+			if song.isExplicit():
+				cleanSongList.remove(song)
+				anyExplicit = True
+		if anyExplicit:
+			return cleanPlaylist
+		else:
+			return self
 
-    def reFilterSongs(self):
-    	"""
-		re filters all songs in the current playlist by calling filterSong in Song class
-    	"""
-        for song in self.getSongs():
-            Song.Song.filterSong(Filter.getInstance())
+	def reFilterSongs(self):
+		"""
+		Refilters all songs in the current playlist by calling filterSong in
+		Song class
+		"""
+		for song in self.getSongs():
+			Song.Song.filterSong(Filter.getInstance())
+
+if __name__ == '__main__':
+	# testing all functions
+	s1 = Song("ass piss Hello", "Me", "test", "www.test.com")
+	s2 = Song("clean song", "Me", "Clean song test", "www.test.com")
+	playlist = Playlist([s1, s2], "test")
+	print(playlist.isExplicit())
+	cleanList = playlist.getCleanPlaylist()
+	print(len(cleanList.getSongs()))
+	print(cleanList.getSongs()[0].getName())
