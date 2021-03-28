@@ -134,7 +134,7 @@ if __name__ == "__main__":
 				id = ret['id']
 				result = Song(genius.lyrics(song_id=id,remove_section_headers=True), ret['primary_artist']['name'], ret['full_title'], ret['url'])
 				if (result.getNumOfExplicitWords() > 0):
-					print("{} has {} explicit words, {}".format(result.getName(), result.getNumOfExplicitWords(), result.getExplicitWords()))
+					print("{} has {} distinct explicit words, {}".format(result.getName(), result.getNumOfExplicitWords(), result.getExplicitWords()))
 				else:
 					print("{} has no explicit words with your current filter".format(result.getName()))
 
