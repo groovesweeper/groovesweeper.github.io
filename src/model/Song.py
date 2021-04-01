@@ -135,8 +135,8 @@ class Song:
 		fullFilter = filter.getFullFilter()
 		song_split = self.__lyrics.split()
 		for word in song_split:
-			if word in fullFilter:
-				self.__explicitWords.add(word)
+			if word.lower() in fullFilter:
+				self.__explicitWords.add(word.lower())
 		return
 
 if __name__ == '__main__':

@@ -100,8 +100,8 @@ if __name__ == "__main__":
 	while True:
 		# Main engine of the code. This will all be UI features on the main site.
 		cmd = input ("Enter 'Filter', 'Search', or 'Quit': ")
-
-		if (cmd.lower() == 'filter'):
+		cmd = cmd.lower().strip()
+		if (cmd == 'filter'):
 			# This is how words are added or removed from the filter
 			print("Current filtered words: ", filter.getFullFilter())
 			cmd = input("Enter ADD or RMV then any number of words/phrases separated by a comma, or 'back' to go back: ")
@@ -117,7 +117,7 @@ if __name__ == "__main__":
 				print("Command not found")
 				continue
 
-		elif (cmd.lower() == "search"):
+		elif (cmd == "search"):
 			# This part of the code lets you search for a song's id and then
 			# run it's lyrics through the filter
 			cmd = input ("Enter a term to search for: ")
@@ -141,11 +141,11 @@ if __name__ == "__main__":
 				# Provide them with the lyrics if they choose or they can be
 				# satisfied with just knowing the explicit words
 				cmd = input("Enter 'Lyrics' to see the lyrics, enter anything else to go back: ")
-				if (cmd.lower() == 'lyrics'):
+				if (cmd.lower().strip() == 'lyrics'):
 					print(result.getLyrics())
 			continue
 
-		elif (cmd.lower() == "quit"):
+		elif (cmd == "quit"):
 			# Exits the program
 			break
 
