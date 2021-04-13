@@ -21,4 +21,5 @@ from django.http import HttpResponse
 urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('', include('groovesweeperapp.urls')),
+	path('contact/', include('groovesweeperapp.urls')),
 ]
