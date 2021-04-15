@@ -15,12 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.http import HttpResponse
-
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
-	path('', include('groovesweeperapp.urls')),
-	path('contact/', include('groovesweeperapp.urls')),
+	path('', include('groovesweeperapp.urls')), # home page
+	path('', include('sendemail.urls')), # contact page
     path('lyrics/', include('groovesweeperapp.urls')),
 ]
