@@ -5,9 +5,5 @@ from django.http import HttpResponse
 def home(request):
 	return render(request, 'groovesweeperapp/index.html')
 
-def contact(request):
-	return render(request, 'groovesweeperapp/contact.html')
-
 def lyrics(request):
 	return render(request, 'groovesweeperapp/lyrics.html')
-	
