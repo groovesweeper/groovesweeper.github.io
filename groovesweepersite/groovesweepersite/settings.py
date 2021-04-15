@@ -122,7 +122,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Email settings
+# Email settings NOT WORKING YET BECAUSE WE DONT WANT TO PAY FOR AN EMAIL SERVER
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'groovesweeper@gmail.com'
 EMAIL_HOST = 'smtp.sendgrid.net'
