@@ -4,7 +4,7 @@ from .forms import SongQueryForm
 import lyricsgenius
 
 # Create your views here.
-def home(request):
+def homeView(request):
 	form = SongQueryForm()
 
 	if (request.method == 'POST'):
@@ -22,8 +22,8 @@ def home(request):
 	context = {'form':form}
 	return render(request, 'groovesweeperapp/index.html', context)
 
-def lyrics(request):
+def lyricsView(request):
 	return render(request, 'groovesweeperapp/lyrics.html')
 
-def results(request):
+def resultsView(request):
     return render(request, 'groovesweeperapp/results.html')
