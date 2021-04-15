@@ -22,8 +22,8 @@ def homeView(request):
 	context = {'form':form}
 	return render(request, 'groovesweeperapp/index.html', context)
 
-def lyricsView(request):
+def lyricsView(request, song_id):
 	return render(request, 'groovesweeperapp/lyrics.html')
 
-def resultsView(request):
+def resultsView(request, query):
     return render(request, 'groovesweeperapp/results.html')
