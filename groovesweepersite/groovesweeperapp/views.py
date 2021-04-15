@@ -7,3 +7,6 @@ def home(request):
 
 def lyrics(request):
 	return render(request, 'groovesweeperapp/lyrics.html')
+
+def results(request):
+    return render(request, 'groovesweeperapp/results.html')
