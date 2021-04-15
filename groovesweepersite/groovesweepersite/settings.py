@@ -122,5 +122,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-DEFAULT_FROM_EMAIL = 'groovesweeper@gmail.com'
+# Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'groovesweeper@gmail.com'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = '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'
+EMAIL_PORT = 587
+EMAIL_USE_TSL = True
