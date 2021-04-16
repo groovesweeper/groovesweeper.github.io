@@ -20,8 +20,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0%v$$hiv4tl9@-y=2pooou*5$avg5y5pq5rgcp#9c$#43*zh(e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'django_extensions',
 	'groovesweeperapp',
 ]
 
@@ -123,11 +120,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Email settings NOT WORKING YET BECAUSE WE DONT WANT TO PAY FOR AN EMAIL SERVER
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-#DEFAULT_FROM_EMAIL = 'groovesweeper@gmail.com'
-#EMAIL_HOST = 'smtp.sendgrid.net'
-#EMAIL_HOST_USER = 'apikey'
-#EMAIL_HOST_PASSWORD =
-#EMAIL_PORT = 587
-#EMAIL_USE_TSL = True
+from local_settings import *
