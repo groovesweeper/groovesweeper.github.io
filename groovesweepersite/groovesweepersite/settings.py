@@ -29,15 +29,24 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
-	'sendemail',
+DEFAULT_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
+
+# local apps are the ones created using startapp
+LOCAL_APPS = [
 	'groovesweeperapp',
+	'sendemail',
+]
+
+# ones installed using pip
+THIRD_PARTY_APPS =[
+
 ]
 
 MIDDLEWARE = [
@@ -121,3 +130,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 from .local_settings import *
+
+INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
