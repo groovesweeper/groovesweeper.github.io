@@ -7,7 +7,7 @@
 	{% include "groovesweeperapp/navBar.html" %}
 	<body>
 		<h1>Welcome to GrooveSweeper</h1>
-		<form action="" method = "post">
+		<form method = "post">
 			{% csrf_token %}
 			{{form}}
 			<button>Search</button>

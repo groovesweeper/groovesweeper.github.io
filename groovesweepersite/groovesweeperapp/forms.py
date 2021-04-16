@@ -1,6 +1,9 @@
-from django import forms
+from django.forms import ModelForm
+from .models import SongQueryModel
 import lyricsgenius
 
 
-class SongQueryForm(forms.Form):
-    term = forms.CharField(label='Your name', max_length=100)
+class SongQueryForm(ModelForm):
+    class Meta:
+        model = SongQueryModel
+        fields = '__all__'
