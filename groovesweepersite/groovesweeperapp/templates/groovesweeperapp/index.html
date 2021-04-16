@@ -10,8 +10,31 @@
 		<form method = "post">
 			{% csrf_token %}
 			{{form}}
-			<button>Search</button>
+			<button name = "search-button">Search</button>
 		</form>
+
+		<!-- Below is the edit filter modal code -->
+		<a href="#"><div id="filter-settings" data-toggle="modal" data-target="#filterModal">Edit Filter</div></a>
+	  <div id="filterModal" class="modal fade" role="dialog">
+	      <div class="modal-dialog">
+	          <!-- Modal content-->
+	            <div class="modal-content">
+
+	                <div class="modal-header">
+	                    <h4 class="modal-title">Edit Filter</h4>
+	                </div>
+
+	                <div class="modal-body">
+	                    <p>Seven Dirty Words: {{7dw}}</p>
+	                </div>
+
+	                <div class="modal-footer">
+	                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	                </div>
+
+	            </div>
+	      </div>
+	  </div>
 	</body>
 	{% include "groovesweeperapp/javascript.html" %}
 </html>
