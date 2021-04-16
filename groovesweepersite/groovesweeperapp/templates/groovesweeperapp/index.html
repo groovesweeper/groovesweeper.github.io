@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+	{% include "groovesweeperapp/bootstrap.html" %}
+	{% include "groovesweeperapp/javascript.html" %}
 	<head>
-		{%include "groovesweeperapp/bootstrap.html" %}
 		<title>Welcome to GrooveSweeper</title>
 	</head>
-	{% include "groovesweeperapp/navBar.html" %}
 	<body>
+		{% include "groovesweeperapp/navBar.html" %}
 		<h1>Welcome to GrooveSweeper</h1>
 		<form method = "post">
 			{% csrf_token %}
@@ -36,5 +37,4 @@
 	      </div>
 	  </div>
 	</body>
-	{% include "groovesweeperapp/javascript.html" %}
 </html>
