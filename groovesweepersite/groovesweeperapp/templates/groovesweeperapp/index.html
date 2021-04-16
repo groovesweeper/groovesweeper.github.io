@@ -26,7 +26,33 @@
 	                </div>
 
 	                <div class="modal-body">
+											<!-- Everything above the <hr> is the existing filters
+													 interface that lets you add  sets to the filter.
+													 The buttons are enabled/disabled depending if the
+													 words are in the filter already -->
 	                    <p>Seven Dirty Words: {{7dw}}</p>
+											<form method = "post">
+													{% csrf_token %}
+													{% if all7 %}
+															<input type="submit" name="add7" class="btn btn-primary" value="Add Words" disabled/>
+													{% else %}
+															<input type="submit" name="add7" class="btn btn-primary" value="Add Words"/>
+													{% endif %}
+											</form>
+
+											<p>Common Swear Words: {{common_swears}}</p>
+											<form method = "post">
+													{% csrf_token %}
+													{% if all_common %}
+															<input type="submit" name="addcommon" class="btn btn-primary" value="Add Words" disabled/>
+													{% else %}
+															<input type="submit" name="addcommon" class="btn btn-primary" value="Add Words" />
+													{% endif %}
+											</form>
+
+											<hr>
+
+
 	                </div>
 
 	                <div class="modal-footer">

@@ -38,6 +38,12 @@ class Filter:
 	getCommonSwearWords() :
 		Gets the __COMMON_SWEAR_WORDS tuple.
 
+	all7():
+		Check if __SEVEN_DIRTY_WORDS in __fullFilter
+
+	allCommon():
+		Check if __COMMON_SWEAR_WORDS in __fullFilter
+
 	"""
 	__instance = None
 
@@ -55,8 +61,8 @@ class Filter:
 			self.__COMMON_SWEAR_WORDS = ("ass", "dick", "pussy", "bitch")
 			for word in self.__SEVEN_DIRTY_WORDS:
 				self.__fullFilter.add(word)
-			for word in self.__COMMON_SWEAR_WORDS:
-				self.__fullFilter.add(word)
+			#for word in self.__COMMON_SWEAR_WORDS:
+				#self.__fullFilter.add(word)
 
 			Filter.__instance = self
 
@@ -153,3 +159,25 @@ class Filter:
 		for word in self.__fullFilter:
 			fullFilter.add(word)
 		return fullFilter
+
+	def all7(self):
+		"""
+		Checks if seven dirty words are present in FullFilter
+
+		Returns
+		-------
+		boolean
+			True if all seven words are in FullFilter, otherwise False
+		"""
+		return set(self.__SEVEN_DIRTY_WORDS).issubset(self.__fullFilter)
+
+	def allCommon(self):
+		"""
+		Checks if common swear words are present in FullFilter
+
+		Returns
+		-------
+		boolean
+			True if all common swears are in FullFilter, otherwise False
+		"""
+		return set(self.__COMMON_SWEAR_WORDS).issubset(self.__fullFilter)
