@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	{% include "groovesweeperapp/bootstrap.html" %}
 	{% include "groovesweeperapp/javascript.html" %}
 	<head>
@@ -10,9 +11,19 @@
 		<h1>Welcome to GrooveSweeper</h1>
 		<form method = "post">
 			{% csrf_token %}
-			{{form}}
+			{{term_form}}
 			<button name = "search-button">Search</button>
 		</form>
+
+		<!-- if the page is being refreshed because filter changed, it will auto
+		start the modal -->
+		{% if start_modal %}
+				<script type="text/javascript">
+				    $(function () {
+				        $('#filterModal').modal('show');
+				    });
+				</script>
+		{% endif %}
 
 		<!-- Below is the edit filter modal code -->
 		<a href="#"><div id="filter-settings" data-toggle="modal" data-target="#filterModal">Edit Filter</div></a>
@@ -22,7 +33,7 @@
 	            <div class="modal-content">
 
 	                <div class="modal-header">
-	                    <h4 class="modal-title">Edit Filter</h4>
+	                    <h3 class="modal-title">Edit Filter</h3>
 	                </div>
 
 	                <div class="modal-body">
@@ -34,9 +45,9 @@
 											<form method = "post">
 													{% csrf_token %}
 													{% if all7 %}
-															<input type="submit" name="add7" class="btn btn-primary" value="Add Words" disabled/>
+															<input type="submit" name="add-7" class="btn btn-primary" value="Add Words" disabled/>
 													{% else %}
-															<input type="submit" name="add7" class="btn btn-primary" value="Add Words"/>
+															<input type="submit" name="add-7" class="btn btn-primary" value="Add Words"/>
 													{% endif %}
 											</form>
 
@@ -44,14 +55,26 @@
 											<form method = "post">
 													{% csrf_token %}
 													{% if all_common %}
-															<input type="submit" name="addcommon" class="btn btn-primary" value="Add Words" disabled/>
+															<input type="submit" name="add-common" class="btn btn-primary" value="Add Words" disabled/>
 													{% else %}
-															<input type="submit" name="addcommon" class="btn btn-primary" value="Add Words" />
+															<input type="submit" name="add-common" class="btn btn-primary" value="Add Words" />
 													{% endif %}
 											</form>
 
 											<hr>
-
+											<h4>Filtered Words</h4>
+											{% for obj in full_filter %}
+													<form method = "post">
+															{% csrf_token %}
+															<button name = "{{obj}}">{{obj}}<i class="fa fa-close"></i></button>
+													</form>
+											{% endfor %}
+											<p>Add any amount of words or phrases to your filter seperated by a comma</p>
+											<form method = "post">
+												{% csrf_token %}
+												{{filter_form}}
+												<button name = "add-custom">Add Words</button>
+											</form>
 
 	                </div>
 
