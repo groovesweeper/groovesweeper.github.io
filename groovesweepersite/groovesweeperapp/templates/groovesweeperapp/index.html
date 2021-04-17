@@ -9,10 +9,12 @@
 	<body>
 		{% include "groovesweeperapp/navBar.html" %}
 		<h1>Welcome to GrooveSweeper</h1>
+
+		<!-- Main search bar -->
 		<form method = "post">
-			{% csrf_token %}
-			{{term_form}}
-			<button name = "search-button">Search</button>
+				{% csrf_token %}
+				{{term_form}}
+				<button name = "search-button">Search</button>
 		</form>
 
 		<!-- if the page is being refreshed because filter changed, it will auto
@@ -29,7 +31,6 @@
 		<a href="#"><div id="filter-settings" data-toggle="modal" data-target="#filterModal">Edit Filter</div></a>
 	  <div id="filterModal" class="modal fade" role="dialog">
 	      <div class="modal-dialog">
-	          <!-- Modal content-->
 	            <div class="modal-content">
 
 	                <div class="modal-header">
@@ -63,12 +64,15 @@
 
 											<hr>
 											<h4>Filtered Words</h4>
+											<!-- Creates a button for each word in filter that clicking
+											upon will delete that word from the filter -->
 											{% for obj in full_filter %}
 													<form method = "post">
 															{% csrf_token %}
 															<button name = "{{obj}}">{{obj}}<i class="fa fa-close"></i></button>
 													</form>
 											{% endfor %}
+											<!-- Text area to add custom words to filter -->
 											<p>Add any amount of words or phrases to your filter seperated by a comma</p>
 											<form method = "post">
 												{% csrf_token %}
