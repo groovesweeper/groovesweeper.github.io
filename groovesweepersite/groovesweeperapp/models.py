@@ -8,6 +8,7 @@ class SongModel(models.Model):
     lyrics = models.TextField()
     explicit_words = models.TextField()
     url = models.CharField(max_length=100)
+    db_song_id = models.CharField(max_length=20)
 
 class SongQueryModel(models.Model):
     # This exists so we can extract the term from the Model Form in the home view

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang = 'en'>
 	{% include "groovesweeperapp/bootstrap.html" %}
 	{% include "groovesweeperapp/javascript.html" %}
 	<head>
@@ -7,6 +7,9 @@
 	</head>
 	<body>
 		{% include "groovesweeperapp/navBar.html" %}
-		<h1> Lyrics Page</h1>
+		<h1> Lyrics for {{name}} by {{artist}} </h1>
+		<p> contains the following explicit words: {{explicit}} </p>
+		<p> {{lyrics}} </p>
+		<p> Link to Genius lyrics page: <a> href={{geniusurl}} </a> </p>
 	</body>
 <html>
