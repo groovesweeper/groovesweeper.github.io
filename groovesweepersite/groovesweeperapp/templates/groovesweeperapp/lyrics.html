@@ -2,6 +2,7 @@
 <html lang = 'en'>
 	{% include "groovesweeperapp/bootstrap.html" %}
 	{% include "groovesweeperapp/javascript.html" %}
+	{% load lyrics_highlight %}
 	<head>
 		<title>Lyrics Page</title>
 	</head>
@@ -9,7 +10,7 @@
 		{% include "groovesweeperapp/navBar.html" %}
 		<h1> Lyrics for {{name}} by {{artist}} </h1>
 		<p> contains the following explicit words: {{explicit}} </p>
-		<p> {{lyrics}} </p>
+		<p> {{lyrics|highlight:explicit}} </p>
 		<p> Link to Genius lyrics page: <a> href={{geniusurl}} </a> </p>
 	</body>
 <html>
