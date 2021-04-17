@@ -1,4 +1,4 @@
-from Filter import Filter
+from .Filter import Filter
 
 class Song:
 	"""

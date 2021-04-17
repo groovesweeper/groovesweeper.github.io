@@ -1,75 +1,105 @@
 from django.shortcuts import render
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from .forms import SongQueryForm, FilterForm
 from .models import SongQueryModel
 from .src.model.Filter import Filter
+from .src.model.Song import *
+import lyricsgenius
+import os
+
 
 # Create your views here.
-def homeView(request, mod = ""):
-	"""
-	Home view when you first load the app. This page has a search bar and edit
-	filter abilities
-	Occasionally when a change has been made in the modal, the page is refreshed
-	and in this case, it is to the url path /mod. When the url is /mod, the
-	edit filter modal opens automatically
-	"""
-	term_form = SongQueryForm()
-	filter = Filter.getInstance()
-	filter_form = FilterForm()
+def homeView(request, mod=""):
+    """
+    Home view when you first load the app. This page has a search bar and edit
+    filter abilities
+    Occasionally when a change has been made in the modal, the page is refreshed
+    and in this case, it is to the url path /mod. When the url is /mod, the
+    edit filter modal opens automatically
+    """
+    term_form = SongQueryForm()
+    filter = Filter.getInstance()
+    filter_form = FilterForm()
 
-	# This if statement is triggered if a button is pressed on the page
-	if (request.method == 'POST'):
-		if 'search-button' in request.POST:
-			# This if statement is if the pressed button is the search button
-			term_form = SongQueryForm(request.POST)
-			if term_form.is_valid():
-				#term_form.save()
-				query = term_form.cleaned_data['term']
-				return HttpResponseRedirect(reverse('results', args=(query,)))
-		elif 'add-7' in request.POST:
-			# This is triggerd when adding the seven dirty words
-			for word in filter.getSevenDirtyWords():
-				filter.addWord(word)
-			mod = "mod"
-			return HttpResponseRedirect(reverse('home-mod', args = (mod,)))
-		elif 'add-common' in request.POST:
-			# This is triggerd when adding the common swear words
-			for word in filter.getCommonSwearWords():
-				filter.addWord(word)
-			mod = "mod"
-			return HttpResponseRedirect(reverse('home-mod', args = (mod,)))
-		elif 'add-custom' in request.POST:
-			# This is triggerd when adding words from text box
-			filter_form = FilterForm(request.POST)
-			if filter_form.is_valid():
-				words_to_add = filter_form.cleaned_data['to_add'].split(",")
-				for word in words_to_add:
-					filter.addWord(word.strip())
-				mod = "mod"
-				return HttpResponseRedirect(reverse('home-mod', args = (mod,)))
-		else:
-			# This is triggered when removing one of the filtered words
-			for word in filter.getFullFilter():
-				# find which word was filtered
-				if word in request.POST:
-					filter.removeWord(word)
-					mod = "mod"
-					return HttpResponseRedirect(reverse('home-mod', args = (mod,)))
-	context = {
-				'term_form':term_form,
-				'filter_form':filter_form,
-				'7dw':str(filter.getSevenDirtyWords()),
-				'common_swears':str(filter.getCommonSwearWords()),
-				'full_filter':filter.getFullFilter(),
-				'all7':filter.all7(),
-				'all_common':filter.allCommon(),
-				'start_modal':(mod == "mod")
-			  }
-	return render(request, 'groovesweeperapp/index.html', context)
+    # This if statement is triggered if a button is pressed on the page
+    if (request.method == 'POST'):
+        if 'search-button' in request.POST:
+            # This if statement is if the pressed button is the search button
+            term_form = SongQueryForm(request.POST)
+            if term_form.is_valid():
+                # term_form.save()
+                query = term_form.cleaned_data['term']
+                return HttpResponseRedirect(reverse('results', args=(query,)))
+        elif 'add-7' in request.POST:
+            # This is triggerd when adding the seven dirty words
+            for word in filter.getSevenDirtyWords():
+                filter.addWord(word)
+            mod = "mod"
+            return HttpResponseRedirect(reverse('home-mod', args=(mod,)))
+        elif 'add-common' in request.POST:
+            # This is triggerd when adding the common swear words
+            for word in filter.getCommonSwearWords():
+                filter.addWord(word)
+            mod = "mod"
+            return HttpResponseRedirect(reverse('home-mod', args=(mod,)))
+        elif 'add-custom' in request.POST:
+            # This is triggerd when adding words from text box
+            filter_form = FilterForm(request.POST)
+            if filter_form.is_valid():
+                words_to_add = filter_form.cleaned_data['to_add'].split(",")
+                for word in words_to_add:
+                    filter.addWord(word.strip())
+                mod = "mod"
+                return HttpResponseRedirect(reverse('home-mod', args=(mod,)))
+        else:
+            # This is triggered when removing one of the filtered words
+            for word in filter.getFullFilter():
+                # find which word was filtered
+                if word in request.POST:
+                    filter.removeWord(word)
+                    mod = "mod"
+                    return HttpResponseRedirect(reverse('home-mod', args=(mod,)))
+    context = {
+        'term_form': term_form,
+        'filter_form': filter_form,
+        '7dw': str(filter.getSevenDirtyWords()),
+        'common_swears': str(filter.getCommonSwearWords()),
+        'full_filter': filter.getFullFilter(),
+        'all7': filter.all7(),
+        'all_common': filter.allCommon(),
+        'start_modal': (mod == "mod")
+    }
+    return render(request, 'groovesweeperapp/index.html', context)
+
 
 def lyricsView(request, song_id):
-	return render(request, 'groovesweeperapp/lyrics.html')
+    return render(request, 'groovesweeperapp/lyrics.html')
 
-def resultsView(request, query):
-    return render(request, 'groovesweeperapp/results.html')
+
+def resultsView(request, query, page=1):
+    page = int(page) - 1
+    print(os.getcwd())
+    client_details = dict()
+    with open("groovesweeperapp/src/model/client_details.txt") as f:
+        for line in f:
+            (key, val) = line.split(":")
+            client_details[key] = val
+    genius = lyricsgenius.Genius(client_details["CLIENT_TOKEN"])
+
+    ret = genius.search(query, per_page=50)['hits']
+    results_list = [10]
+
+    for i in range(10):
+        if (i + page * 10) < (len(ret)):
+            for_ret = ret[i + page * 10]['result']
+            result = Song(genius.lyrics(song_id=for_ret['id'], remove_section_headers=True),
+                          for_ret['primary_artist']['name'], for_ret['full_title'], for_ret['url'])
+            results_list[i] = dict()
+            results_list[i]['name'] = result.getName()
+            results_list[i]['artist'] = result.getArtist()
+            results_list[i]['num_explicit'] = result.getNumOfExplicitWords()
+
+    context = {'results': results_list}
+
+    return render(request, 'groovesweeperapp/results.html', context)

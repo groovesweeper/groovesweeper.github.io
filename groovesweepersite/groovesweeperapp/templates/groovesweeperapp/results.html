@@ -9,5 +9,15 @@
 	<body>
 		{% include "groovesweeperapp/navBar.html" %}
 		<h1>Results Page</h1>
+		<table>
+			{% for obj in results %}
+				<tr>
+					<th>{{obj.name}}</th>
+					<th>{{obj.artist}}</th>
+					<th>{{obj.num_explicit}}</th>
+			  	</tr>
+
+			{% endfor %}
+		</table>
 	</body>
-<html>
+</html>

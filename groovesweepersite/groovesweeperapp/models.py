@@ -12,3 +12,4 @@ class SongModel(models.Model):
 class SongQueryModel(models.Model):
     # This exists so we can extract the term from the Model Form in the home view
     term = models.CharField(max_length=100)
+
