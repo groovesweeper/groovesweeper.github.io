@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from .forms import SongQueryForm, FilterForm
-from .models import SongQueryModel
+from .models import SongModel, SongQueryModel
 from .src.model.Filter import Filter
 from .src.model.Song import *
 import lyricsgenius
@@ -73,10 +73,6 @@ def homeView(request, mod=""):
     return render(request, 'groovesweeperapp/index.html', context)
 
 
-def lyricsView(request, song_id):
-    return render(request, 'groovesweeperapp/lyrics.html')
-
-
 def resultsView(request, query, page=1):
     page = int(page) - 1
     print(os.getcwd())
@@ -103,3 +99,14 @@ def resultsView(request, query, page=1):
     context = {'results': results_list}
 
     return render(request, 'groovesweeperapp/results.html', context)
+
+def lyricsView(request, song_id):
+	chosenSong = SongModel.objects.filter(db_song_id=song_id)
+	context = {
+				'explicit':chosenSong.explicit,
+				'name':chosenSong.name,
+				'artist':chosenSong.artist,
+				'lyrics':chosenSong.lyrics,
+				'geniusurl':chosenSong.url
+			  }
+	return render(request, 'groovesweeperapp/lyrics.html')
