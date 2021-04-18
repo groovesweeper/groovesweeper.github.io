@@ -3,6 +3,7 @@
 <html lang = 'en'>
 	{% include "groovesweeperapp/bootstrap.html" %}
 	{% include "groovesweeperapp/javascript.html" %}
+	{% load utils %}
 	<head>
 		<link rel="stylesheet" href="{% static 'results.css' %}">
 		<title>Results Page</title>
@@ -13,34 +14,39 @@
 		<h1>Results Page</h1>
 		<table>
 			{% for obj in results %}
-				<form method = "post">
-					{% csrf_token %}
-					<tr class = "result-row" onclick="goToLyrics({{obj.index}})">
-						<td class = "result-box" >{{obj.name}}</td>
-						<td class = "result-box">{{obj.artist}}</td>
-						<td class = "result-box">{{obj.num_explicit}}</td>
-				  </tr>
-				</form>
+			<tr class = "result-row">
+				<td class = "result-box" ><a href="/{{obj.id}}/lyrics">{{obj.name}}</a></td>
+				<td class = "result-box">{{obj.artist}}</td>
+				<td class = "result-box">{{obj.num_explicit}}</td>
+		  </tr>
 
 			{% endfor %}
 		</table>
 	</body>
 </html>
 
-<script
+
+<script>
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous">
 </script>
 
 <script>
-	function goToLyrics(song_idx) {
+	function goToLyrics(song_idx,song_id) {
 		$.ajax({
+			//url:"/"+song_id+"/lyrics/"
 			type:"POST",
 			headers:{
         "X-CSRFToken": '{{ csrf_token }}'
 			},
-			data:{index:song_idx}
-		})
+			data:{
+							index:song_idx,
+							id:song_id
+						}
+		}).done(function (data) {
+    if (data.success) {
+        window.location.href = "/"+data.id+"/lyrics/";
+    }
 	}
 </script>
