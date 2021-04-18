@@ -140,15 +140,16 @@ def resultsView(request, query, page=1):
 	return render(request, 'groovesweeperapp/results.html', context)
 
 def lyricsView(request, song_id):
-	print(SongModel.objects.filter(db_song_id = song_id))
-	chosenSong = model_to_dict(SongModel.objects.filter(db_song_id=song_id)[0])
+    print(SongModel.objects.filter(db_song_id = song_id))
+    hits = SongModel.objects.filter(db_song_id = song_id)
+    chosenSong = model_to_dict(hits[len(hits)-1])
 
-	context = {
-				'explicit':chosenSong['explicit_words'].split(","),
-				'name':chosenSong['name'],
-				'artist':chosenSong['artist'],
-				'lyrics':chosenSong['lyrics'],
-				'geniusurl':chosenSong['url']
-			  }
+    context = {
+                'explicit':chosenSong['explicit_words'].split(","),
+                'name':chosenSong['name'],
+                'artist':chosenSong['artist'],
+                'lyrics':chosenSong['lyrics'],
+                'geniusurl':chosenSong['url']
+            }
 
-	return render(request, 'groovesweeperapp/lyrics.html', context)
+    return render(request, 'groovesweeperapp/lyrics.html', context)
