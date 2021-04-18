@@ -9,6 +9,6 @@ register = template.Library()
 @stringfilter
 def highlight(value, explicit_terms, autoescape=True):
     result = value
-    for term in explicit_terms:
+    for term in explicit_terms.split(','):
     	result = result.replace(term, "<span class='highlight'>%s</span>" % term)
     return mark_safe(result)

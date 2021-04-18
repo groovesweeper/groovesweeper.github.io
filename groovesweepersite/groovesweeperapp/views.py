@@ -47,7 +47,7 @@ def homeView(request, mod=""):
             # This is triggerd when adding words from text box
             filter_form = FilterForm(request.POST)
             if filter_form.is_valid():
-                words_to_add = filter_form.cleaned_data['to_add'].split(",")
+                words_to_add = filter_form.cleaned_data['to_add'].lower().split(",")
                 for word in words_to_add:
                     filter.addWord(word.strip())
                 mod = "mod"
