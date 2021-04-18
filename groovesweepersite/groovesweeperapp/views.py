@@ -49,7 +49,7 @@ def homeView(request, mod=""):
             if filter_form.is_valid():
                 words_to_add = filter_form.cleaned_data['to_add'].split(",")
                 for word in words_to_add:
-                    filter.addWord(word.strip())
+                    filter.addWord(word.strip().lower())
                 mod = "mod"
                 return HttpResponseRedirect(reverse('home-mod', args=(mod,)))
         else:
@@ -89,13 +89,15 @@ def resultsView(request, query, page=1):
 
 	for i in range(len(ret)):
 		for_ret = ret[i]['result']
-		result = Song("FFFFFFFFFFFFF",#genius.lyrics(song_id=for_ret['id'], remove_section_headers=True),
+		result_ = Song("FFFFFFFFFFFFF",#genius.lyrics(song_id=for_ret['id'], remove_section_headers=True),
       				for_ret['primary_artist']['name'], for_ret['full_title'], for_ret['url'])
 		results_list[i] = dict()
 		results_list[i]['name'] = result.getName()
 		results_list[i]['artist'] = result.getArtist()
 		results_list[i]['num_explicit'] = result.getNumOfExplicitWords()
+		results_list[i]['set_explicit'] = result.getExplicitWords()
 		results_list[i]['id'] = for_ret['id']
+		results_list[i]['url'] = for_ret
 		results_list[i]['index'] = i
 
 	if (request.method == "POST"):
@@ -104,10 +106,10 @@ def resultsView(request, query, page=1):
 		song = SongModel.objects.createSong(
 											info['name'],
 											info['artist'],
-											'ffffffffffffff',
-											",".join(filter.getFullFilter()),
-											"google.net",
-											info['id']
+											'fuck you, piss shit',
+											",".join(info['set_explicit']),
+											"http://google.net",
+											str(info['id'])
 										  )
 		song_id = str(info['id'])
 		return HttpResponseRedirect(reverse('lyrics', args=(song_id,)))
@@ -119,10 +121,11 @@ def lyricsView(request, song_id):
 	chosenSong = model_to_dict(SongModel.objects.filter(db_song_id=song_id)[0])
 	print("we made it boys :)")
 	context = {
-				'explicit':chosenSong['explicit_words'],
+				'explicit':chosenSong['explicit_words'].split(","),
 				'name':chosenSong['name'],
 				'artist':chosenSong['artist'],
 				'lyrics':chosenSong['lyrics'],
 				'geniusurl':chosenSong['url']
 			  }
-	return render(request, 'groovesweeperapp/lyrics.html',context)
+	print("we still made it boys :)")
+	return render(request, 'groovesweeperapp/lyrics.html', context)
