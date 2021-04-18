@@ -15,7 +15,7 @@
 		<table>
 			{% for obj in results %}
 			<tr class = "result-row">
-				<td class = "result-box" ><a href="{% url 'lyrics' {{obj|dictitem:id}} %}">{{obj.name}}</a></td>
+				<td class = "result-box" ><a href="/{{obj.id}}/lyrics">{{obj.name}}</a></td>
 				<td class = "result-box">{{obj.artist}}</td>
 				<td class = "result-box">{{obj.num_explicit}}</td>
 		  </tr>
