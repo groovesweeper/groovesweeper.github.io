@@ -1,5 +1,6 @@
 from django.test import SimpleTestCase
-from groovesweeperapp.forms import SongQueryForm
+from groovesweeperapp.forms import SongQueryForm, FilterForm
+from django import forms
 
 class TestForms(SimpleTestCase):
 
@@ -14,4 +15,10 @@ class TestForms(SimpleTestCase):
 			'term': 'jrojtfldvdamufxturhcctupztkecuukwoeflysaplwsqbpyktwjkhwtbcswodyzxrpceffwyzqnuawrsbswjiowvyqgzznicbtplm'
 			})
 		self.assertFalse(form.is_valid())
+
+	def test_FilterForm(self):
+		form = FilterForm(data={
+			'to_add': 'words'
+			})
+		self.assertTrue(form.is_valid())
 
