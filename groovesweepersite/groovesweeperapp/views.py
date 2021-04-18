@@ -89,19 +89,36 @@ def resultsView(request, query, page=1):
 	print('here')
 	for i in range(len(ret)):
 		for_ret = ret[i]['result']
-		result = Song(genius.lyrics(song_id=for_ret['id']),
-      				for_ret['primary_artist']['name'], for_ret['full_title'], for_ret['url'])
-		results_list[i] = dict()
-		results_list[i]['name'] = result.getName()
-		results_list[i]['artist'] = result.getArtist()
-		results_list[i]['num_explicit'] = result.getNumOfExplicitWords()
-		results_list[i]['set_explicit'] = result.getExplicitWords()
-		results_list[i]['id'] = for_ret['id']
-		results_list[i]['url'] = for_ret
-		results_list[i]['index'] = i
+		lyrics = ""
+		try:
+			lyrics = genius.lyrics(song_id = for_ret['id'])
+		except:
+			print(for_ret['full_title'], "time out")
+		if lyrics != "":
+			result = Song(lyrics,
+	      				for_ret['primary_artist']['name'], for_ret['full_title'], for_ret['url'])
+			results_list[i] = dict()
+			results_list[i]['name'] = result.getName()
+			results_list[i]['artist'] = result.getArtist()
+			results_list[i]['num_explicit'] = result.getNumOfExplicitWords()
+			results_list[i]['set_explicit'] = result.getExplicitWords()
+			results_list[i]['id'] = for_ret['id']
+			results_list[i]['url'] = for_ret
+			results_list[i]['index'] = i
 
+			song = SongModel.objects.createSong(
+												results_list[i]['name'],
+												results_list[i]['artist'],
+												lyrics,
+												results_list[i]['set_explicit'],
+												results_list[i]['url'],
+												results_list[i]['id']
+			)
+			song.save()
 	print('here2')
+	print(request.method)
 	if (request.method == "POST"):
+		print("POSTING HAPPENED")
 		#print(results_list[int(request.POST['index'])])
 		info = results_list[int(request.POST['index'])]
 		song = SongModel.objects.createSong(
@@ -112,7 +129,9 @@ def resultsView(request, query, page=1):
 											"http://google.net",
 											str(info['id'])
 										  )
-		song_id = str(info['id'])
+		print(str(song))
+		song.save()
+		#song_id = str(info['id'])
 		return HttpResponseRedirect(reverse('lyrics', args=(song_id,)))
 
 	context = {'results': results_list}
@@ -121,6 +140,7 @@ def resultsView(request, query, page=1):
 	return render(request, 'groovesweeperapp/results.html', context)
 
 def lyricsView(request, song_id):
+	print(SongModel.objects.filter(db_song_id = song_id))
 	chosenSong = model_to_dict(SongModel.objects.filter(db_song_id=song_id)[0])
 
 	context = {
