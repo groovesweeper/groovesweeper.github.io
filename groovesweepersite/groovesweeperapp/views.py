@@ -7,6 +7,7 @@ from .models import SongModel, SongQueryModel
 from .src.model.Filter import Filter
 from .src.model.Song import *
 import lyricsgenius
+import re
 
 
 # Create your views here.
@@ -145,16 +146,19 @@ def lyricsView(request, song_id):
 
     hits = SongModel.objects.filter(db_song_id = song_id)
     chosenSong = model_to_dict(hits[len(hits)-1])
+
+	# adds format to the lyrics for HTML page
     chosenSong['lyrics'] = chosenSong['lyrics'].replace('\n','<br>')
     #print(chosenSong['explicit_words'].strip('{}').split(", "))
 
 
-
+	# highlighting for the explicit words
     for term in chosenSong['explicit_words'].strip('{}').split(", "):
         term = term.strip('\'')
-        chosenSong['lyrics'] = chosenSong['lyrics'].replace(term, "<span style='background-color:red;color:white;'>%s</span>" % term)
-
-    context = {
+        #chosenSong['lyrics'] = chosenSong['lyrics'].replace(term, "<span style='background-color:red;color:white;'>%s</span>" % term)
+        pattern = re.compile(re.escape(term), re.IGNORECASE)
+        chosenSong['lyrics'] = pattern.sub("<span style='background-color:red;color:white;'>%s</span>" % term, chosenSong['lyrics'])
+        context = {
                 'explicit':chosenSong['explicit_words'].split(","),
                 'name':chosenSong['name'],
                 'artist':chosenSong['artist'],
