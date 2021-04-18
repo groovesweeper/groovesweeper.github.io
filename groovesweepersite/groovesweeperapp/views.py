@@ -140,12 +140,12 @@ def lyricsView(request, song_id):
 
 	# adds format to the lyrics for HTML page
     chosenSong['lyrics'] = chosenSong['lyrics'].replace('\n','<br>')
-    print(str(hits))
 
-    if len(chosenSong['explicit_words']) > 0 :
+    if chosenSong['explicit_words'] != 'set()':
         song_status = "EXPLICIT"
     else:
         song_status = "CLEAN"
+
 	# highlighting for the explicit words
     for term in chosenSong['explicit_words'].strip('{}').split(", "):
         term = term.strip('\'')
