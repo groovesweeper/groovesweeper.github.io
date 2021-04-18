@@ -50,7 +50,8 @@ def homeView(request, mod=""):
             if filter_form.is_valid():
                 words_to_add = filter_form.cleaned_data['to_add'].lower().split(",")
                 for word in words_to_add:
-                    filter.addWord(word.strip().lower())
+                    if word != "":
+                        filter.addWord(word.strip().lower())
                 mod = "mod"
                 return HttpResponseRedirect(reverse('home-mod', args=(mod,)))
         else:
