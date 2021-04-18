@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang = 'en'>
-	{% include "groovesweeperapp/bootstrap.html" %}
-	{% include "groovesweeperapp/javascript.html" %}
-	{% load lyrics_highlight %}
 	<head>
+		{% include "groovesweeperapp/bootstrap.html" %}
+		{% include "groovesweeperapp/javascript.html" %}
+		<link rel="stylesheet" href="{% static 'allpages.css' %}">
+		{% load lyrics_highlight %}
 		<title>Lyrics Page</title>
 	</head>
 	<body>
 		{% include "groovesweeperapp/navBar.html" %}
-		<h1> Lyrics for {{name}}</h1>
+		<h1 class = "text-center"> Lyrics for {{name}}</h1>
 		<p> contains the following explicit words: {{explicit}} </p>
 		<p> {{lyrics|highlight:explicit}} </p>
 		<p> <a href="{{geniusurl}}">Link to Genius lyrics page </a> </p>

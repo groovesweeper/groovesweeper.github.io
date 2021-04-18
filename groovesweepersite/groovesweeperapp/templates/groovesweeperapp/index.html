@@ -1,15 +1,18 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	{% include "groovesweeperapp/bootstrap.html" %}
-	{% include "groovesweeperapp/javascript.html" %}
+
 	<head>
+		{% include "groovesweeperapp/bootstrap.html" %}
+		{% include "groovesweeperapp/javascript.html" %}
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="{% static 'allpages.css' %}">
 		<title>Welcome to GrooveSweeper</title>
 	</head>
 	<body>
 		{% include "groovesweeperapp/navBar.html" %}
-		<h1>Welcome to GrooveSweeper</h1>
-
+		<h1 class = "text-center">Welcome to GrooveSweeper</h1>
+		{% load static %} <img class = "mx-auto d-block" src="{% static "groovesweeperapp/media/Logo.png" %}" alt="Logo" width = "600">
 		<!-- Main search bar -->
 		<form method = "post">
 				{% csrf_token %}
@@ -28,7 +31,7 @@
 		{% endif %}
 
 		<!-- Below is the edit filter modal code -->
-		<a href="#"><div id="filter-settings" data-toggle="modal" data-target="#filterModal">Edit Filter</div></a>
+		<button type = "button" href="#"><div id="filter-settings" data-toggle="modal" data-target="#filterModal">Edit Filter</div></button>
 	  <div id="filterModal" class="modal fade" role="dialog">
 	      <div class="modal-dialog">
 	            <div class="modal-content">

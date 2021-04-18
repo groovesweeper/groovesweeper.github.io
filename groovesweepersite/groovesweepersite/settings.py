@@ -42,11 +42,13 @@ DEFAULT_APPS = [
 LOCAL_APPS = [
 	'groovesweeperapp',
 	'sendemail',
+	'spotify',
 ]
 
 # ones installed using pip
-THIRD_PARTY_APPS =[
-
+THIRD_PARTY_APPS_SHARED =[
+	'rest_framework',
+	'social_django',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +74,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+				'social_django.context_processors.backends',  # spotify
+                'social_django.context_processors.login_redirect', # spotify
             ],
         },
     },
@@ -129,6 +134,23 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# used for the spotify page
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+SOCIAL_AUTH_SPOTIFY_SCOPE = [
+	'user-read-email',
+	'user-library-read',
+	'playlist-modify-public',
+	'playlist-modify-private'
+]
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = "home"
+
+AUTHENTICATION_BACKENDS = [
+	'social_core.backends.spotify.SpotifyOAuth2',
+	'django.contrib.auth.backends.ModelBackend',
+]
+
 from .local_settings import *
 
-INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + THIRD_PARTY_APPS_SHARED + LOCAL_APPS

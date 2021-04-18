@@ -20,6 +20,4 @@ urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('', include('groovesweeperapp.urls')), # home page
 	#path('', include('sendemail.urls')), # contact page
-    #path('lyrics/', include('groovesweeperapp.urls')),
-    #path('results/', include('groovesweeperapp.urls')),
 ]
