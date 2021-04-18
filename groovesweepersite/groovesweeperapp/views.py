@@ -136,7 +136,7 @@ def resultsView(request, query, page=1):
 		#song_id = str(info['id'])
 		return HttpResponseRedirect(reverse('lyrics', args=(song_id,)))
 
-	context = {'results': results_list}
+	context = {'results': results_list, 'query' : query}
 
 	#print('here3')
 	return render(request, 'groovesweeperapp/results.html', context)

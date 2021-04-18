@@ -4,23 +4,31 @@
 	{% include "groovesweeperapp/bootstrap.html" %}
 	{% include "groovesweeperapp/javascript.html" %}
 	<head>
+		<link rel="stylesheet" href="{% static 'allpages.css' %}">
 		<link rel="stylesheet" href="{% static 'results.css' %}">
 		<title>Results Page</title>
 	</head>
 
 	<body>
 		{% include "groovesweeperapp/navBar.html" %}
-		<h1>Results Page</h1>
-		<table>
-			{% for obj in results %}
-			<tr class = "result-row">
-				<td class = "result-box" ><a href="/{{obj.id}}/lyrics">{{obj.name}}</a></td>
-				<td class = "result-box">{{obj.artist}}</td>
-				<td class = "result-box">{{obj.num_explicit}}</td>
-		  </tr>
+		<h1 class = "text-center">Results Page for "{{query}}"</h1>
+		<div class = "row justify-content-center">
+			<div class = 'col-auto'
+			style = "background-color: #fff2cc;
+					padding-top: 15px;
+					padding-bottom: 15px;">
+				<table>
+					{% for obj in results %}
+					<tr class = "clickable-row result-row" onclick="window.location='/{{obj.id}}/lyrics'">
+						<td class = "result-box" >{{obj.name}}</td>
+						<td class = "result-box">{{obj.artist}}</td>
+						<td class = "result-box">{{obj.num_explicit}}</td>
+					</tr>
 
-			{% endfor %}
-		</table>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
 	</body>
 </html>
 
