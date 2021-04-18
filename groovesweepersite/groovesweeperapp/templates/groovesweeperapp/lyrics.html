@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		{% include "groovesweeperapp/navBar.html" %}
-		<h1> Lyrics for {{name}} by {{artist}} </h1>
+		<h1> Lyrics for {{name}}</h1>
 		<p> contains the following explicit words: {{explicit}} </p>
 		<p> {{lyrics|highlight:explicit}} </p>
 		<p> <a href="{{geniusurl}}">Link to Genius lyrics page </a> </p>

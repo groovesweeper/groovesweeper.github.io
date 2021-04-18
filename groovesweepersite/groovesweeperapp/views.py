@@ -80,16 +80,16 @@ def resultsView(request, query, page=1):
 		for line in f:
 			(key, val) = line.split(":")
 			client_details[key] = val
-	genius = lyricsgenius.Genius(client_details["CLIENT_TOKEN"])
+	genius = lyricsgenius.Genius(client_details["CLIENT_TOKEN"].strip('\n'))
 
 	filter = Filter.getInstance()
 
 	ret = genius.search(query, per_page=50)['hits']
 	results_list = [None] * 20
-
+	print('here')
 	for i in range(len(ret)):
 		for_ret = ret[i]['result']
-		result = Song("FFFFFFFFFFFFF",#genius.lyrics(song_id=for_ret['id'], remove_section_headers=True),
+		result = Song(genius.lyrics(song_id=for_ret['id']),
       				for_ret['primary_artist']['name'], for_ret['full_title'], for_ret['url'])
 		results_list[i] = dict()
 		results_list[i]['name'] = result.getName()
@@ -100,6 +100,7 @@ def resultsView(request, query, page=1):
 		results_list[i]['url'] = for_ret
 		results_list[i]['index'] = i
 
+	print('here2')
 	if (request.method == "POST"):
 		#print(results_list[int(request.POST['index'])])
 		info = results_list[int(request.POST['index'])]
@@ -115,12 +116,13 @@ def resultsView(request, query, page=1):
 		return HttpResponseRedirect(reverse('lyrics', args=(song_id,)))
 
 	context = {'results': results_list}
-	
+
+	print('here3')
 	return render(request, 'groovesweeperapp/results.html', context)
 
 def lyricsView(request, song_id):
 	chosenSong = model_to_dict(SongModel.objects.filter(db_song_id=song_id)[0])
-	print("we made it boys :)")
+
 	context = {
 				'explicit':chosenSong['explicit_words'].split(","),
 				'name':chosenSong['name'],
@@ -128,5 +130,5 @@ def lyricsView(request, song_id):
 				'lyrics':chosenSong['lyrics'],
 				'geniusurl':chosenSong['url']
 			  }
-	print("we still made it boys :)")
+
 	return render(request, 'groovesweeperapp/lyrics.html', context)
