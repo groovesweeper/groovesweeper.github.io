@@ -86,7 +86,7 @@ def resultsView(request, query, page=1):
 
 	ret = genius.search(query, per_page=50)['hits']
 	results_list = [None] * 20
-	print('here')
+	#print('here')
 	for i in range(len(ret)):
 		for_ret = ret[i]['result']
 		lyrics = ""
@@ -115,10 +115,10 @@ def resultsView(request, query, page=1):
 												results_list[i]['id']
 			)
 			song.save()
-	print('here2')
-	print(request.method)
+	#print('here2')
+	#print(request.method)
 	if (request.method == "POST"):
-		print("POSTING HAPPENED")
+		#print("POSTING HAPPENED")
 		#print(results_list[int(request.POST['index'])])
 		info = results_list[int(request.POST['index'])]
 		song = SongModel.objects.createSong(
@@ -129,20 +129,30 @@ def resultsView(request, query, page=1):
 											"http://google.net",
 											str(info['id'])
 										  )
-		print(str(song))
-		song.save()
+		#print(str(song))
+		#song.save()
 		#song_id = str(info['id'])
 		return HttpResponseRedirect(reverse('lyrics', args=(song_id,)))
 
 	context = {'results': results_list}
 
-	print('here3')
+	#print('here3')
 	return render(request, 'groovesweeperapp/results.html', context)
 
 def lyricsView(request, song_id):
-    print(SongModel.objects.filter(db_song_id = song_id))
+    #print(SongModel.objects.filter(db_song_id = song_id))
+    filter = Filter.getInstance()
+
     hits = SongModel.objects.filter(db_song_id = song_id)
     chosenSong = model_to_dict(hits[len(hits)-1])
+    chosenSong['lyrics'] = chosenSong['lyrics'].replace('\n','<br>')
+    #print(chosenSong['explicit_words'].strip('{}').split(", "))
+
+
+
+    for term in chosenSong['explicit_words'].strip('{}').split(", "):
+        term = term.strip('\'')
+        chosenSong['lyrics'] = chosenSong['lyrics'].replace(term, "<span style='background-color:red;color:white;'>%s</span>" % term)
 
     context = {
                 'explicit':chosenSong['explicit_words'].split(","),
