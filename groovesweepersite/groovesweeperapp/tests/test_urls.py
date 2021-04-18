@@ -15,3 +15,9 @@ class TestUrls(SimpleTestCase):
 	def test_results_url_is_resolved(self):
 		url = reverse('results', args=['WAP'])
 		self.assertEquals(resolve(url).func, resultsView)
+
+	def test_homeMod_is_resolved(self):
+		url = reverse('home-mod', args=['mod'])
+		self.assertEquals(resolve(url).func, homeView)
+		
+

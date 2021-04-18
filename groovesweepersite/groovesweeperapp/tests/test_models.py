@@ -1,5 +1,5 @@
 from django.test import TestCase, SimpleTestCase
-from groovesweeperapp.models import SongQueryModel, SongModel
+from groovesweeperapp.models import SongQueryModel, SongModel, SongManager
 from django.core.exceptions import ValidationError
 
 
@@ -11,13 +11,14 @@ class TestModels(TestCase):
 			artist = 'DJ JY',
 			lyrics = 'these are some lyrics to this song, shit, sometimes I play ping pong, fuck',
 			explicit_words = 'shit fuck',
-			url = "somestring"
+			url = "somestring",
+			db_song_id = '1500'
 		)
 
 		self.SongQuery1 = SongQueryModel.objects.create(
 			term = 'testTerm'
 		)
-
+		
 	def test_SongModel_valid(self):
 		model = self.Song1
 		self.assertEquals(model.name, 'testSong')
@@ -25,6 +26,7 @@ class TestModels(TestCase):
 		self.assertEquals(model.lyrics, 'these are some lyrics to this song, shit, sometimes I play ping pong, fuck')
 		self.assertEquals(model.explicit_words, 'shit fuck')
 		self.assertEquals(model.url, 'somestring')
+		self.assertEquals(model.db_song_id, '1500')
 		
 
 	def test_songModel_invalid(self):
@@ -48,6 +50,8 @@ class TestModels(TestCase):
 		model1 = self.SongQuery1
 		model1.term = 'Ss6X8lliirCJnowfp3wBMM7rr2m6nwUZWfFntcAy3QdZmdtewyYCWF7onbQ5ohVCJzWG2bpiOO45qvzhw2KzTEmFEZhZr1jTBQ2CJ'
 		self.assertRaises(ValidationError, model1.full_clean)
+
+
 
 
 
