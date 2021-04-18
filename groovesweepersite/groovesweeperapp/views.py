@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.forms.models import model_to_dict
 from .forms import SongQueryForm, FilterForm
 from .models import SongModel, SongQueryModel
 from .src.model.Filter import Filter
 from .src.model.Song import *
 import lyricsgenius
-import os
 
 
 # Create your views here.
@@ -74,39 +74,55 @@ def homeView(request, mod=""):
 
 
 def resultsView(request, query, page=1):
-    page = int(page) - 1
-    print(os.getcwd())
-    client_details = dict()
-    with open("groovesweeperapp/src/model/client_details.txt") as f:
-        for line in f:
-            (key, val) = line.split(":")
-            client_details[key] = val
-    genius = lyricsgenius.Genius(client_details["CLIENT_TOKEN"])
+	page = int(page) - 1
+	client_details = dict()
+	with open("./groovesweeperapp/src/model/client_details.txt") as f:
+		for line in f:
+			(key, val) = line.split(":")
+			client_details[key] = val
+	genius = lyricsgenius.Genius(client_details["CLIENT_TOKEN"])
 
-    ret = genius.search(query, per_page=50)['hits']
-    results_list = [10]
+	filter = Filter.getInstance()
 
-    for i in range(10):
-        if (i + page * 10) < (len(ret)):
-            for_ret = ret[i + page * 10]['result']
-            result = Song(genius.lyrics(song_id=for_ret['id'], remove_section_headers=True),
-                          for_ret['primary_artist']['name'], for_ret['full_title'], for_ret['url'])
-            results_list[i] = dict()
-            results_list[i]['name'] = result.getName()
-            results_list[i]['artist'] = result.getArtist()
-            results_list[i]['num_explicit'] = result.getNumOfExplicitWords()
+	ret = genius.search(query, per_page=50)['hits']
+	results_list = [None] * 20
 
-    context = {'results': results_list}
+	for i in range(len(ret)):
+		for_ret = ret[i]['result']
+		result = Song("FFFFFFFFFFFFF",#genius.lyrics(song_id=for_ret['id'], remove_section_headers=True),
+      				for_ret['primary_artist']['name'], for_ret['full_title'], for_ret['url'])
+		results_list[i] = dict()
+		results_list[i]['name'] = result.getName()
+		results_list[i]['artist'] = result.getArtist()
+		results_list[i]['num_explicit'] = result.getNumOfExplicitWords()
+		results_list[i]['id'] = for_ret['id']
+		results_list[i]['index'] = i
 
-    return render(request, 'groovesweeperapp/results.html', context)
+	if (request.method == "POST"):
+		#print(results_list[int(request.POST['index'])])
+		info = results_list[int(request.POST['index'])]
+		song = SongModel.objects.createSong(
+											info['name'],
+											info['artist'],
+											'ffffffffffffff',
+											",".join(filter.getFullFilter()),
+											"google.net",
+											info['id']
+										  )
+		song_id = str(info['id'])
+		return HttpResponseRedirect(reverse('lyrics', args=(song_id,)))
+
+	context = {'results': results_list}
+	return render(request, 'groovesweeperapp/results.html', context)
 
 def lyricsView(request, song_id):
-	chosenSong = SongModel.objects.filter(db_song_id=song_id)
+	chosenSong = model_to_dict(SongModel.objects.filter(db_song_id=song_id)[0])
+	print("we made it boys :)")
 	context = {
-				'explicit':chosenSong.explicit,
-				'name':chosenSong.name,
-				'artist':chosenSong.artist,
-				'lyrics':chosenSong.lyrics,
-				'geniusurl':chosenSong.url
+				'explicit':chosenSong['explicit_words'],
+				'name':chosenSong['name'],
+				'artist':chosenSong['artist'],
+				'lyrics':chosenSong['lyrics'],
+				'geniusurl':chosenSong['url']
 			  }
-	return render(request, 'groovesweeperapp/lyrics.html')
+	return render(request, 'groovesweeperapp/lyrics.html',context)

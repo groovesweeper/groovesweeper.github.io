@@ -1,0 +1,7 @@
+.result-row:hover {
+  background-color: grey;
+}
+
+.result-row {
+  cursor:pointer;
+}
