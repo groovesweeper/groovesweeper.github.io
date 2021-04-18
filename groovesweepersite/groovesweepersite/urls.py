@@ -18,8 +18,9 @@ from django.urls import path, include
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
-	path('', include('groovesweeperapp.urls')), # home page
+	path('', include('groovesweeperapp.urls')), # groovesweeper main app
+	path('social/', include('social_django.urls', namespace = 'social')), # spotify integration
+	path('spotify/', include('spotify.urls')), # spotify app
 	#path('', include('sendemail.urls')), # contact page
-    #path('lyrics/', include('groovesweeperapp.urls')),
-    #path('results/', include('groovesweeperapp.urls')),
+
 ]
