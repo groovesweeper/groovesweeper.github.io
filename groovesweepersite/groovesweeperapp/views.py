@@ -89,7 +89,7 @@ def resultsView(request, query, page=1):
 
 	for i in range(len(ret)):
 		for_ret = ret[i]['result']
-		result_ = Song("FFFFFFFFFFFFF",#genius.lyrics(song_id=for_ret['id'], remove_section_headers=True),
+		result = Song("FFFFFFFFFFFFF",#genius.lyrics(song_id=for_ret['id'], remove_section_headers=True),
       				for_ret['primary_artist']['name'], for_ret['full_title'], for_ret['url'])
 		results_list[i] = dict()
 		results_list[i]['name'] = result.getName()
@@ -115,6 +115,7 @@ def resultsView(request, query, page=1):
 		return HttpResponseRedirect(reverse('lyrics', args=(song_id,)))
 
 	context = {'results': results_list}
+	
 	return render(request, 'groovesweeperapp/results.html', context)
 
 def lyricsView(request, song_id):
