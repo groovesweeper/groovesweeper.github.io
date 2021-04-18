@@ -88,7 +88,6 @@ def resultsView(request, query, page=1):
 
 	ret = genius.search(query, per_page=50)['hits']
 	results_list = [None] * 20
-	#print('here')
 	for i in range(len(ret)):
 		for_ret = ret[i]['result']
 		lyrics = ""
@@ -117,11 +116,8 @@ def resultsView(request, query, page=1):
 												results_list[i]['id']
 			)
 			song.save()
-	#print('here2')
-	#print(request.method)
+
 	if (request.method == "POST"):
-		#print("POSTING HAPPENED")
-		#print(results_list[int(request.POST['index'])])
 		info = results_list[int(request.POST['index'])]
 		song = SongModel.objects.createSong(
 											info['name'],
@@ -131,18 +127,12 @@ def resultsView(request, query, page=1):
 											"http://google.net",
 											str(info['id'])
 										  )
-		#print(str(song))
-		#song.save()
-		#song_id = str(info['id'])
 		return HttpResponseRedirect(reverse('lyrics', args=(song_id,)))
 
 	context = {'results': results_list, 'query' : query}
-
-	#print('here3')
 	return render(request, 'groovesweeperapp/results.html', context)
 
 def lyricsView(request, song_id):
-    #print(SongModel.objects.filter(db_song_id = song_id))
     filter = Filter.getInstance()
 
     hits = SongModel.objects.filter(db_song_id = song_id)
@@ -150,21 +140,25 @@ def lyricsView(request, song_id):
 
 	# adds format to the lyrics for HTML page
     chosenSong['lyrics'] = chosenSong['lyrics'].replace('\n','<br>')
-    #print(chosenSong['explicit_words'].strip('{}').split(", "))
+    print(str(hits))
 
-
+    if len(chosenSong['explicit_words']) > 0 :
+        song_status = "EXPLICIT"
+    else:
+        song_status = "CLEAN"
 	# highlighting for the explicit words
     for term in chosenSong['explicit_words'].strip('{}').split(", "):
         term = term.strip('\'')
-        #chosenSong['lyrics'] = chosenSong['lyrics'].replace(term, "<span style='background-color:red;color:white;'>%s</span>" % term)
         pattern = re.compile(re.escape(term), re.IGNORECASE)
         chosenSong['lyrics'] = pattern.sub("<span style='background-color:red;color:white;'>%s</span>" % term, chosenSong['lyrics'])
-        context = {
-                'explicit':chosenSong['explicit_words'].split(","),
-                'name':chosenSong['name'],
-                'artist':chosenSong['artist'],
-                'lyrics':chosenSong['lyrics'],
-                'geniusurl':chosenSong['url']
-            }
+
+    context = {
+            'explicit':chosenSong['explicit_words'].split(","),
+            'name':chosenSong['name'],
+            'artist':chosenSong['artist'],
+            'lyrics':chosenSong['lyrics'],
+            'geniusurl':chosenSong['url'],
+			'song_status': song_status
+        }
 
     return render(request, 'groovesweeperapp/lyrics.html', context)

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang = 'en'>
 	<head>
@@ -10,8 +11,11 @@
 	<body>
 		{% include "groovesweeperapp/navBar.html" %}
 		<h1 class = "text-center"> Lyrics for {{name}}</h1>
-		<p> contains the following explicit words: {{explicit}} </p>
-		<p> {{lyrics|highlight:explicit}} </p>
+		<h1 class = "text-center"> {{song_status}} </h1>
+		<h3> contains the following explicit words: {{explicit}} </h3>
+		<div class = "text-center">
+			<p> {{lyrics|highlight:explicit}} </p>
+		</div>
 		<p> <a href="{{geniusurl}}">Link to Genius lyrics page </a> </p>
 	</body>
 </html>
