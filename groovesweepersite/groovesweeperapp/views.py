@@ -142,9 +142,9 @@ def lyricsView(request, song_id):
     chosenSong['lyrics'] = chosenSong['lyrics'].replace('\n','<br>')
 
     if chosenSong['explicit_words'] != 'set()':
-        song_status = "EXPLICIT"
+        song_status = "<span class = 'bg-dark text-white'>EXPLICIT</span>"
     else:
-        song_status = "CLEAN"
+        song_status = "<span class = 'bg-success text-dark'>CLEAN</span>"
 
 	# highlighting for the explicit words
     for term in chosenSong['explicit_words'].strip('{}').split(", "):
