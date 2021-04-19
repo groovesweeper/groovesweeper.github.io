@@ -91,8 +91,8 @@ def resultsView(request, query, page=1):
 
     filter = Filter.getInstance()
 
-    ret = genius.search(query, per_page=50)['hits']
-    results_list = [None] * 20
+    ret = genius.search(query, per_page=10)['hits']
+    results_list = [None] * 10
     for i in range(len(ret)):
         for_ret = ret[i]['result']
         lyrics = ""
