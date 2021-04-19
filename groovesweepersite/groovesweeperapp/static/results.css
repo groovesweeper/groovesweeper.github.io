@@ -6,6 +6,6 @@
   background-color: #e06666;
 }
 
-.result-row {
-  cursor:pointer;
+.clickable {
+  cursor:pointer !important;
 }
