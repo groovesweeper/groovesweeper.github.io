@@ -14,12 +14,14 @@
 		<h1 class = "text-center">Welcome to GrooveSweeper</h1>
 		{% load static %} <img class = "mx-auto d-block" src="{% static "groovesweeperapp/media/Logo.png" %}" alt="Logo" width = "600">
 		<!-- Main search bar -->
-		<form method = "post">
-				{% csrf_token %}
-				{{term_form}}
-				<button name = "search-button">Search</button>
-		</form>
-
+		<div class = "index-bar">
+			<form class = "index-search" method = "post">
+					{% csrf_token %}
+					{{term_form}}
+					<button name = "search-button">Search</button>
+			</form>
+			<button type = "button" href="#"><div id="filter-settings" data-toggle="modal" data-target="#filterModal">Edit Filter</div></button>
+		</div>
 		<!-- if the page is being refreshed because filter changed, it will auto
 		start the modal -->
 		{% if start_modal %}
@@ -31,55 +33,62 @@
 		{% endif %}
 
 		<!-- Below is the edit filter modal code -->
-		<button type = "button" href="#"><div id="filter-settings" data-toggle="modal" data-target="#filterModal">Edit Filter</div></button>
 		<div id="filterModal" class="modal fade" role="dialog">
 		    <div class="modal-dialog">
 		        <div class="modal-content">
 
 		            <div class="modal-header">
-		                <h3 class="modal-title">Edit Filter</h3>
+		                <h3 class="col-12 modal-title">Edit Filter</h3>
 		            </div>
 
 		            <div class="modal-body">
-					<!-- Everything above the <hr> is the existing filters
+					<!-- Everything above the 2nd <hr> is the existing filters
 							 interface that lets you add  sets to the filter.
 							 The buttons are enabled/disabled depending if the
 							 words are in the filter already -->
-		                <p>Seven Dirty Words: {{7dw}}</p>
-						<form method = "post">
-								{% csrf_token %}
-								{% if all7 %}
-										<input type="submit" name="add-7" class="btn btn-primary" value="Add Words" disabled/>
-								{% else %}
-										<input type="submit" name="add-7" class="btn btn-primary" value="Add Words"/>
-								{% endif %}
-						</form>
+								<div class = "index-preset-filter">
+					        <p>Seven Dirty Words: {{7dw}}</p>
+									<form method = "post">
+											{% csrf_token %}
+											{% if all7 %}
+													<input type="submit" name="add-7" value="Add Words" disabled/>
+											{% else %}
+													<input type="submit" name="add-7" value="Add Words"/>
+											{% endif %}
+									</form>
+									<hr>
+								</div>
 
-						<p>Common Swear Words: {{common_swears}}</p>
-						<form method = "post">
-								{% csrf_token %}
-								{% if all_common %}
-										<input type="submit" name="add-common" class="btn btn-primary" value="Add Words" disabled/>
-								{% else %}
-										<input type="submit" name="add-common" class="btn btn-primary" value="Add Words" />
-								{% endif %}
-						</form>
+								<div class = "index-preset-filter">
+									<p>Common Swear Words: {{common_swears}}</p>
+									<form method = "post">
+											{% csrf_token %}
+											{% if all_common %}
+													<input type="submit" name="add-common" value="Add Words" disabled/>
+											{% else %}
+													<input type="submit" name="add-common" value="Add Words" />
+											{% endif %}
+									</form>
+									</div>
 
-						<hr>
+									<hr>
 						<h4>Filtered Words</h4>
 						<!-- Creates a button for each word in filter that clicking
 						upon will delete that word from the filter -->
-						{% for obj in full_filter %}
-								<form method = "post">
+						<div class = "filter-buttons">
+							<form method = "post">
+								{% for obj in full_filter %}
 										{% csrf_token %}
 										<button name = "{{obj}}">{{obj}}<i class="fa fa-close"></i></button>
-								</form>
-						{% endfor %}
+								{% endfor %}
+						</form>
+					</div>
 						<!-- Text area to add custom words to filter -->
 						<p>Add any amount of words or phrases to your filter seperated by a comma</p>
-						<form method = "post">
+						<form class="filter-add-word" method = "post">
 							{% csrf_token %}
 							{{filter_form}}
+							<br>
 							<button name = "add-custom">Add Words</button>
 						</form>
 
