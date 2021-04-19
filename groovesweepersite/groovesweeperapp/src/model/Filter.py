@@ -44,6 +44,8 @@ class Filter:
 	allCommon():
 		Check if __COMMON_SWEAR_WORDS in __fullFilter
 
+	clearAll():
+		Clears all words from the full filter and custom words filter.
 	"""
 	__instance = None
 
@@ -188,4 +190,3 @@ class Filter:
 		"""
 		self.__customFilterWords = set()
 		self.__fullFilter = set()
-		
