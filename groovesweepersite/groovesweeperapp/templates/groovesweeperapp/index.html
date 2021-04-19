@@ -1,4 +1,3 @@
-<<<<<<< current
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -47,32 +46,44 @@
 							 interface that lets you add  sets to the filter.
 							 The buttons are enabled/disabled depending if the
 							 words are in the filter already -->
-								<div class = "index-preset-filter">
+
+
+						<div class = "index-preset-filter">
 					        <p>Seven Dirty Words: {{7dw}}</p>
-									<form method = "post">
-											{% csrf_token %}
-											{% if all7 %}
-													<input type="submit" name="add-7" value="Add Words" disabled/>
-											{% else %}
-													<input type="submit" name="add-7" value="Add Words"/>
-											{% endif %}
-									</form>
-									<hr>
-								</div>
+								<form method = "post">
+										{% csrf_token %}
+										{% if all7 %}
+												<input type="submit" name="add-7" value="Add Words" disabled/>
+										{% else %}
+												<input type="submit" name="add-7" value="Add Words"/>
+										{% endif %}
+								</form>
+						</div>
 
-								<div class = "index-preset-filter">
-									<p>Common Swear Words: {{common_swears}}</p>
-									<form method = "post">
-											{% csrf_token %}
-											{% if all_common %}
-													<input type="submit" name="add-common" value="Add Words" disabled/>
-											{% else %}
-													<input type="submit" name="add-common" value="Add Words" />
-											{% endif %}
-									</form>
-									</div>
+						<hr>
+						<div class = "index-preset-filter">
+							<p>Common Swear Words: {{common_swears}}</p>
+							<form method = "post">
+									{% csrf_token %}
+									{% if all_common %}
+											<input type="submit" name="add-common" value="Add Words" disabled/>
+									{% else %}
+											<input type="submit" name="add-common" value="Add Words" />
+									{% endif %}
+							</form>
+						</div>
 
-									<hr>
+						<hr>
+						<div align = "center">
+							<form method = "post">
+								{% csrf_token %}
+								{% if none %}
+									<input type = "submit" name = "clear-all" class = "btn btn-danger" value = "Clear All Words" disabled/>
+								{% else %}
+									<input type = "submit" name = "clear-all" class = "btn btn-danger" value = "Clear All Words"/>
+								{% endif %}
+							</form>
+						</div>
 						<h4>Filtered Words</h4>
 						<!-- Creates a button for each word in filter that clicking
 						upon will delete that word from the filter -->
@@ -104,141 +115,3 @@
 		</div>
 		</body>
 </html>
-=======
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-
-	<head>
-		{% include "groovesweeperapp/bootstrap.html" %}
-		{% include "groovesweeperapp/javascript.html" %}
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="{% static 'allpages.css' %}">
-		<title>Welcome to GrooveSweeper</title>
-	</head>
-	<body>
-		{% include "groovesweeperapp/navBar.html" %}
-		<h1 class = "text-center">Welcome to GrooveSweeper</h1>
-		{% load static %} <img class = "img-fluid mx-auto d-block" src="{% static "groovesweeperapp/media/Logo.png" %}" alt="Logo" width = "600">
-		<!-- Main search bar -->
-		<div class = "index-bar">
-			<form class = "index-search" method = "post">
-					{% csrf_token %}
-					{{term_form}}
-					<button name = "search-button">Search</button>
-			</form>
-			<button type = "button" href="#"><div id="filter-settings" data-toggle="modal" data-target="#filterModal">Edit Filter</div></button>
-		</div>
-		<!-- if the page is being refreshed because filter changed, it will auto
-		start the modal -->
-		{% if start_modal %}
-				<script type="text/javascript">
-				    $(function () {
-				        $('#filterModal').modal('show');
-				    });
-				</script>
-		{% endif %}
-
-		<!-- Below is the edit filter modal code -->
-		<div id="filterModal" class="modal fade" role="dialog">
-		    <div class="modal-dialog">
-		        <div class="modal-content">
-
-		            <div class="modal-header">
-		                <h3 class="col-12 modal-title">Edit Filter</h3>
-		            </div>
-
-		            <div class="modal-body">
-					<!-- Everything above the 2nd <hr> is the existing filters
-							 interface that lets you add  sets to the filter.
-							 The buttons are enabled/disabled depending if the
-							 words are in the filter already -->
-<<<<<<< HEAD
-		                <p>Seven Dirty Words: {{7dw}}</p>
-						<form method = "post">
-							{% csrf_token %}
-							{% if all7 %}
-								<input type="submit" name="add-7" class="btn btn-primary" value="Add Words" disabled/>
-							{% else %}
-								<input type="submit" name="add-7" class="btn btn-primary" value="Add Words"/>
-							{% endif %}
-						</form>
-
-						<p>Common Swear Words: {{common_swears}}</p>
-						<form method = "post">
-							{% csrf_token %}
-							{% if all_common %}
-								<input type="submit" name="add-common" class="btn btn-primary" value="Add Words" disabled/>
-							{% else %}
-								<input type="submit" name="add-common" class="btn btn-primary" value="Add Words" />
-							{% endif %}
-						</form>
-
-						<form method = "post">
-							{% csrf_token %}
-							{% if none %}
-								<input type = "submit" name = "clear-all" class = "btn btn-danger" value = "Clear All Words" disabled/>
-							{% else %}
-								<input type = "submit" name = "clear-all" class = "btn btn-danger" value = "Clear All Words"/>
-							{% endif %}
-						</form>
-=======
-								<div class = "index-preset-filter">
-					        <p>Seven Dirty Words: {{7dw}}</p>
-									<form method = "post">
-											{% csrf_token %}
-											{% if all7 %}
-													<input type="submit" name="add-7" value="Add Words" disabled/>
-											{% else %}
-													<input type="submit" name="add-7" value="Add Words"/>
-											{% endif %}
-									</form>
-									<hr>
-								</div>
-
-								<div class = "index-preset-filter">
-									<p>Common Swear Words: {{common_swears}}</p>
-									<form method = "post">
-											{% csrf_token %}
-											{% if all_common %}
-													<input type="submit" name="add-common" value="Add Words" disabled/>
-											{% else %}
-													<input type="submit" name="add-common" value="Add Words" />
-											{% endif %}
-									</form>
-									</div>
->>>>>>> 1ef421418fd99e1fbe7b25e2c0975696544f2770
-
-									<hr>
-						<h4>Filtered Words</h4>
-						<!-- Creates a button for each word in filter that clicking
-						upon will delete that word from the filter -->
-						<div class = "filter-buttons">
-							<form method = "post">
-								{% for obj in full_filter %}
-										{% csrf_token %}
-										<button name = "{{obj}}">{{obj}}<i class="fa fa-close"></i></button>
-								{% endfor %}
-						</form>
-					</div>
-						<!-- Text area to add custom words to filter -->
-						<p>Add any amount of words or phrases to your filter seperated by a comma</p>
-						<form class="filter-add-word" method = "post">
-							{% csrf_token %}
-							{{filter_form}}
-							<br>
-							<button name = "add-custom">Add Words</button>
-						</form>
-
-		            </div>
-
-	                <div class="modal-footer">
-	                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	                </div>
-
-		        </div>
-		    </div>
-		</div>
-		</body>
-</html>
->>>>>>> before discard
