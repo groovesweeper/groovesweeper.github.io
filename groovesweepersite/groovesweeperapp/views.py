@@ -54,6 +54,11 @@ def homeView(request, mod=""):
                         filter.addWord(word.strip().lower())
                 mod = "mod"
                 return HttpResponseRedirect(reverse('home-mod', args=(mod,)))
+        elif 'clear-all' in request.POST:
+            # This is triggered when clearing all the words
+            filter.clearAll()
+            mod = "mod"
+            return HttpResponseRedirect(reverse('home-mod', args=(mod,)))
         else:
             # This is triggered when removing one of the filtered words
             for word in filter.getFullFilter():

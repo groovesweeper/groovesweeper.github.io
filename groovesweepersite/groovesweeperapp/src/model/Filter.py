@@ -181,3 +181,11 @@ class Filter:
 			True if all common swears are in FullFilter, otherwise False
 		"""
 		return set(self.__COMMON_SWEAR_WORDS).issubset(self.__fullFilter)
+
+	def clearAll(self):
+		"""
+		Clears the full filter and clears custom filter.
+		"""
+		self.__customFilterWords = set()
+		self.__fullFilter = set()
+		
