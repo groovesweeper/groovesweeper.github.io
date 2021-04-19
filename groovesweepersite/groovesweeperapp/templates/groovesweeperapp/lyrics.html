@@ -12,9 +12,19 @@
 		{% include "groovesweeperapp/navBar.html" %}
 		<h1 class = "text-center"> Lyrics for {{name}}</h1>
 
-		{{song_status|safe}}
+		{% if song_status %}
+			<div align = 'center'>
+				<h1 class = 'text-center bg-dark text-white' style = 'display:table; padding-left: 40px; padding-right: 40px;'>EXPLICIT</h1>
+			</div>
+		{% else %}
+			<div align = 'center'>
+				<h1 class = 'text-center bg-success text-white' style = 'display:table; padding-left: 40px; padding-right: 40px;'>CLEAN</h1>
+			</div>
+		{% endif %}
 
-		<h3> contains the following explicit words: {{explicit}} </h3>
+		{% if song_status %}
+			<h3> contains the following explicit words: {{explicit}} </h3>
+		{% endif %}
 		<div class = "row justify-content-center">
 			<div class = "col-auto text-center border-right rounded"
 				style =

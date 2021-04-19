@@ -1,5 +1,9 @@
-.result-row:hover {
-  background-color: grey;
+.clean-row:hover {
+  background-color: #b6d7a8;
+}
+
+.explicit-row:hover {
+  background-color: #e06666;
 }
 
 .result-row {

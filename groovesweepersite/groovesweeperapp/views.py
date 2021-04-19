@@ -76,49 +76,53 @@ def homeView(request, mod=""):
 
 
 def resultsView(request, query, page=1):
-	page = int(page) - 1
-	client_details = dict()
-	with open("./groovesweeperapp/src/model/client_details.txt") as f:
-		for line in f:
-			(key, val) = line.split(":")
-			client_details[key] = val
-	genius = lyricsgenius.Genius(client_details["CLIENT_TOKEN"].strip('\n'))
+    page = int(page) - 1
+    client_details = dict()
+    with open("./groovesweeperapp/src/model/client_details.txt") as f:
+        for line in f:
+            (key, val) = line.split(":")
+            client_details[key] = val
+    genius = lyricsgenius.Genius(client_details["CLIENT_TOKEN"].strip('\n'))
 
-	filter = Filter.getInstance()
+    filter = Filter.getInstance()
 
-	ret = genius.search(query, per_page=50)['hits']
-	results_list = [None] * 20
-	for i in range(len(ret)):
-		for_ret = ret[i]['result']
-		lyrics = ""
-		try:
-			lyrics = genius.lyrics(song_id = for_ret['id'])
-		except:
-			print(for_ret['full_title'], "time out")
-		if lyrics != "":
-			result = Song(lyrics,
-	      				for_ret['primary_artist']['name'], for_ret['full_title'], for_ret['url'])
-			results_list[i] = dict()
-			results_list[i]['name'] = result.getName()
-			results_list[i]['artist'] = result.getArtist()
-			results_list[i]['num_explicit'] = result.getNumOfExplicitWords()
-			results_list[i]['set_explicit'] = result.getExplicitWords()
-			results_list[i]['id'] = for_ret['id']
-			results_list[i]['url'] = for_ret['url']
-			results_list[i]['index'] = i
+    ret = genius.search(query, per_page=50)['hits']
+    results_list = [None] * 20
+    for i in range(len(ret)):
+        for_ret = ret[i]['result']
+        lyrics = ""
+        try:
+            lyrics = genius.lyrics(song_id = for_ret['id'])
+        except:
+            print(for_ret['full_title'], "time out")
+        if lyrics != "":
+            result = Song(lyrics,
+                    for_ret['primary_artist']['name'], for_ret['full_title'], for_ret['url'])
+            results_list[i] = dict()
+            results_list[i]['name'] = result.getName()
+            results_list[i]['artist'] = result.getArtist()
+            results_list[i]['num_explicit'] = result.getNumOfExplicitWords()
+            if (results_list[i]['num_explicit']):
+                results_list[i]['is_explicit'] = 'explicit  '
+            else:
+                results_list[i]['is_explicit'] = 'clean'
+            results_list[i]['set_explicit'] = result.getExplicitWords()
+            results_list[i]['id'] = for_ret['id']
+            results_list[i]['url'] = for_ret['url']
+            results_list[i]['index'] = i
 
-			song = SongModel.objects.createSong(
-												results_list[i]['name'],
-												results_list[i]['artist'],
-												lyrics,
-												results_list[i]['set_explicit'],
-												results_list[i]['url'],
-												results_list[i]['id']
-			)
-			song.save()
+            song = SongModel.objects.createSong(
+                                                results_list[i]['name'],
+                                                results_list[i]['artist'],
+                                                lyrics,
+                                                results_list[i]['set_explicit'],
+                                                results_list[i]['url'],
+                                                results_list[i]['id']
+                                                )
+            #song.save()
 
-	context = {'results': results_list, 'query' : query}
-	return render(request, 'groovesweeperapp/results.html', context)
+    context = {'results': results_list, 'query' : query}
+    return render(request, 'groovesweeperapp/results.html', context)
 
 def lyricsView(request, song_id):
     filter = Filter.getInstance()
@@ -130,22 +134,27 @@ def lyricsView(request, song_id):
     chosenSong['lyrics'] = chosenSong['lyrics'].replace('\n','<br>')
 
     if chosenSong['explicit_words'] != 'set()':
-        song_status = "<div align = 'center'><h1 class = 'text-center bg-dark text-white' style = 'display:table; padding-left: 40px; padding-right: 40px;'>EXPLICIT</h1></div>"
+        chosenSong['explicit_words'] = chosenSong['explicit_words'][1:-1]
+        chosenSong['explicit_words'] = chosenSong['explicit_words'].split(", ")
+        print(type(chosenSong['explicit_words']))
+        song_status = True
     else:
-        song_status = "<div align = 'center'><h1 class = 'text-center bg-success text-white' style = 'display:table; padding-left: 40px; padding-right: 40px;'>CLEAN</h1></div>"
+        song_status = False
 
 	# highlighting for the explicit words
-    for term in chosenSong['explicit_words'].strip('{}').split(", "):
-        term = term.strip('\'')
-        pattern = re.compile(re.escape(term), re.IGNORECASE)
-        chosenSong['lyrics'] = pattern.sub("<span style='background-color:red;color:white;'>%s</span>" % term, chosenSong['lyrics'])
+    if song_status == True:
+        for term in chosenSong['explicit_words']:
+            term = term.strip('\'')
+            pattern = re.compile(re.escape(term), re.IGNORECASE)
+            chosenSong['lyrics'] = pattern.sub("<span style='background-color:red;color:white;'>%s</span>" % term, chosenSong['lyrics'])
 
     context = {
-            'explicit':chosenSong['explicit_words'].split(","),
+            'explicit':",".join(chosenSong['explicit_words']),
             'name':chosenSong['name'],
             'artist':chosenSong['artist'],
             'lyrics':chosenSong['lyrics'],
             'geniusurl':chosenSong['url'],
 			'song_status': song_status
+
         }
     return render(request, 'groovesweeperapp/lyrics.html', context)
