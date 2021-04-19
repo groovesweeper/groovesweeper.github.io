@@ -108,7 +108,7 @@ def resultsView(request, query, page=1):
             results_list[i]['artist'] = result.getArtist()
             results_list[i]['num_explicit'] = result.getNumOfExplicitWords()
             if (results_list[i]['num_explicit']):
-                results_list[i]['is_explicit'] = 'explicit  '
+                results_list[i]['is_explicit'] = 'explicit'
             else:
                 results_list[i]['is_explicit'] = 'clean'
             results_list[i]['set_explicit'] = result.getExplicitWords()
@@ -141,7 +141,7 @@ def lyricsView(request, song_id):
     if chosenSong['explicit_words'] != 'set()':
         chosenSong['explicit_words'] = chosenSong['explicit_words'][1:-1]
         chosenSong['explicit_words'] = chosenSong['explicit_words'].split(", ")
-        print(type(chosenSong['explicit_words']))
+        #print(type(chosenSong['explicit_words']))
         song_status = True
     else:
         song_status = False
