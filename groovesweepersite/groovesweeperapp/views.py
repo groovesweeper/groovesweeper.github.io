@@ -104,7 +104,7 @@ def resultsView(request, query, page=1):
 			results_list[i]['num_explicit'] = result.getNumOfExplicitWords()
 			results_list[i]['set_explicit'] = result.getExplicitWords()
 			results_list[i]['id'] = for_ret['id']
-			results_list[i]['url'] = for_ret
+			results_list[i]['url'] = for_ret['url']
 			results_list[i]['index'] = i
 
 			song = SongModel.objects.createSong(
@@ -116,18 +116,6 @@ def resultsView(request, query, page=1):
 												results_list[i]['id']
 			)
 			song.save()
-
-	if (request.method == "POST"):
-		info = results_list[int(request.POST['index'])]
-		song = SongModel.objects.createSong(
-											info['name'],
-											info['artist'],
-											'fuck you, piss shit',
-											",".join(info['set_explicit']),
-											"http://google.net",
-											str(info['id'])
-										  )
-		return HttpResponseRedirect(reverse('lyrics', args=(song_id,)))
 
 	context = {'results': results_list, 'query' : query}
 	return render(request, 'groovesweeperapp/results.html', context)
@@ -160,5 +148,5 @@ def lyricsView(request, song_id):
             'geniusurl':chosenSong['url'],
 			'song_status': song_status
         }
-
+    print("URL", chosenSong['url'])
     return render(request, 'groovesweeperapp/lyrics.html', context)
