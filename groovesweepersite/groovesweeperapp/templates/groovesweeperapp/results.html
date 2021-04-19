@@ -26,6 +26,7 @@
 						</tr>
 					</thread>
 					<tbody>
+						<!-- Loop creates each table's rows -->
 						{% for obj in results %}
 						<tr class = "clickable-row {{obj.is_explicit}}-row" onclick="window.location='/{{obj.id}}/lyrics'">
 							<td class = "result-box" >{{obj.name}}</td>
@@ -41,29 +42,3 @@
 	</div>
 	</body>
 </html>
-
-
-<script>
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous">
-</script>
-
-<script>
-	function goToLyrics(song_idx,song_id) {
-		$.ajax({
-			//url:"/"+song_id+"/lyrics/"
-			type:"POST",
-			headers:{
-        "X-CSRFToken": '{{ csrf_token }}'
-			},
-			data:{
-							index:song_idx,
-							id:song_id
-						}
-		}).done(function (data) {
-    if (data.success) {
-        window.location.href = "/"+data.id+"/lyrics/";
-    }
-	}
-</script>

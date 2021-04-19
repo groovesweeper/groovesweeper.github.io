@@ -12,16 +12,18 @@
 		{% include "groovesweeperapp/navBar.html" %}
 		<h1 class = "text-center">{{name}}</h1>
 
+		<!-- Big banner to declare if song is explicit or not -->
 		{% if song_status %}
 			<div align = 'center'>
-				<h1 class = 'text-center bg-dark text-white' style = 'display:table; padding-left: 40px; padding-right: 40px;'>EXPLICIT</h1>
+				<h1 class = 'text-center bg-dark text-white lyrics-banner'>EXPLICIT</h1>
 			</div>
 		{% else %}
 			<div align = 'center'>
-				<h1 class = 'text-center bg-success text-white' style = 'display:table; padding-left: 40px; padding-right: 40px;'>CLEAN</h1>
+				<h1 class = 'text-center bg-success text-white lyrics-banner'>CLEAN</h1>
 			</div>
 		{% endif %}
 
+		<!-- in case song is explicit, declare what makes it so -->
 		{% if song_status %}
 			<h3 class = "text-center">Contains the following explicit words: {{explicit}}</h3>
 		{% endif %}

@@ -1,9 +1,14 @@
+'''
+This is the script that runs the server and performs first-time
+set up and hosts the server
+'''
+
 import os
 import webbrowser
 
 def firstTimeSetup():
     print("Doing first time setup\n.\n.\n.")
-    f = open("./dist/first_time.txt", "w")
+    f = open("./first_time.txt", "w")
     try:
         import django
     except:
@@ -19,7 +24,7 @@ def firstTimeSetup():
 
 
 if __name__ == "__main__":
-    if (os.path.exists("./dist/first_time.txt") == False):
+    if (os.path.exists("./first_time.txt") == False):
         firstTimeSetup()
     webbrowser.open_new("http://localhost:8000")
     #os.system("python3 ./manage.py flush")

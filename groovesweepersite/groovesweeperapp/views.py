@@ -29,7 +29,6 @@ def homeView(request, mod=""):
             # This if statement is if the pressed button is the search button
             term_form = SongQueryForm(request.POST)
             if term_form.is_valid():
-                # term_form.save()
                 query = term_form.cleaned_data['term']
                 return HttpResponseRedirect(reverse('results', args=(query,)))
         elif 'add-7' in request.POST:
@@ -80,10 +79,13 @@ def homeView(request, mod=""):
     return render(request, 'groovesweeperapp/index.html', context)
 
 
-def resultsView(request, query, page=1):
-    page = int(page) - 1
+def resultsView(request, query):
+    """
+    resultsView lists the responses from the Genius query
+    """
     client_details = dict()
     with open("./groovesweeperapp/src/model/client_details.txt") as f:
+        # this loop finds the secret client token from the Genius API
         for line in f:
             (key, val) = line.split(":")
             client_details[key] = val
@@ -101,12 +103,15 @@ def resultsView(request, query, page=1):
         except:
             print(for_ret['full_title'], "time out")
         if lyrics != "":
+            # Here we create the song object, used for its class methods
             result = Song(lyrics,
                     for_ret['primary_artist']['name'], for_ret['full_title'], for_ret['url'])
             results_list[i] = dict()
             results_list[i]['name'] = result.getName()
             results_list[i]['artist'] = result.getArtist()
             results_list[i]['num_explicit'] = result.getNumOfExplicitWords()
+            # This if statement is used to specify css for hovering over the
+            # results on the page
             if (results_list[i]['num_explicit']):
                 results_list[i]['is_explicit'] = 'explicit'
             else:
@@ -116,6 +121,8 @@ def resultsView(request, query, page=1):
             results_list[i]['url'] = for_ret['url']
             results_list[i]['index'] = i
 
+            # We save the song as a SongModel to the DB to quickly pull it up
+            # on the lyrics page
             song = SongModel.objects.createSong(
                                                 results_list[i]['name'],
                                                 results_list[i]['artist'],
@@ -130,8 +137,13 @@ def resultsView(request, query, page=1):
     return render(request, 'groovesweeperapp/results.html', context)
 
 def lyricsView(request, song_id):
+    """
+    lyricsView shows us the specified song's lyrics, disqualifying words (if any),
+    and highlights said words in the lyrics themselves
+    """
     filter = Filter.getInstance()
 
+    # Pulls song info via SQL
     hits = SongModel.objects.filter(db_song_id = song_id)
     chosenSong = model_to_dict(hits[len(hits)-1])
 
@@ -139,12 +151,14 @@ def lyricsView(request, song_id):
     chosenSong['lyrics'] = chosenSong['lyrics'].replace('\n','<br>')
 
     if chosenSong['explicit_words'] != 'set()':
+        # In this case, there are explicit words in the song, some string
+        # parsing must occur
         chosenSong['explicit_words'] = chosenSong['explicit_words'][1:-1]
         chosenSong['explicit_words'] = chosenSong['explicit_words'].split(", ")
         #print(type(chosenSong['explicit_words']))
-        song_status = True
+        song_status = True # True = song is dirty
     else:
-        song_status = False
+        song_status = False # False = song is clean
 
 	# highlighting for the explicit words
     if song_status == True:

@@ -4,6 +4,10 @@ import lyricsgenius
 
 
 class SongQueryForm(forms.ModelForm):
+    """
+    This code handles details of the search form on the homepage, connects to
+    SongQueryModel
+    """
     class Meta:
         model = SongQueryModel
         fields = '__all__'

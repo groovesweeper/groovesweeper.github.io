@@ -100,3 +100,13 @@ label[for=id_to_add] {
 .filter-add-word button {
 	background-color: #f1c232;
 }
+
+/*******************************/
+/****  CSS FOR LYRICS.HTML  ****/
+/*******************************/
+
+.lyrics-banner {
+	display:table;
+	padding-left: 40px;
+	padding-right: 40px;
+}
