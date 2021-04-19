@@ -17,9 +17,9 @@
 			<div class = "col-auto border-right rounded"
 			style = "background-color: #fff2cc;
 					padding: 30px;">
-				<table>
+				<table class = "clickable">
 					{% for obj in results %}
-					<tr class = "clickable-row {{obj.is_explicit}}-row" onclick="window.location='/{{obj.id}}/lyrics'">
+					<tr class = "{{obj.is_explicit}}-row" onclick="window.location='/{{obj.id}}/lyrics'">
 						<td class = "result-box" >{{obj.name}}</td>
 						<td class = "result-box">{{obj.artist}}</td>
 						<td class = "result-box">{{obj.num_explicit}}</td>
