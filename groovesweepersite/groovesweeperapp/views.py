@@ -132,7 +132,7 @@ def lyricsView(request, song_id):
     if chosenSong['explicit_words'] != 'set()':
         song_status = "<div align = 'center'><h1 class = 'text-center bg-dark text-white' style = 'display:table; padding-left: 40px; padding-right: 40px;'>EXPLICIT</h1></div>"
     else:
-        song_status = "<div align = 'center'><h1 class = 'text-center bg-success text-white' style = 'display:table; padding-left: 40px; padding-right: 40px;'>CLEAN</h1><div>"
+        song_status = "<div align = 'center'><h1 class = 'text-center bg-success text-white' style = 'display:table; padding-left: 40px; padding-right: 40px;'>CLEAN</h1></div>"
 
 	# highlighting for the explicit words
     for term in chosenSong['explicit_words'].strip('{}').split(", "):
@@ -148,5 +148,4 @@ def lyricsView(request, song_id):
             'geniusurl':chosenSong['url'],
 			'song_status': song_status
         }
-    print("URL", chosenSong['url'])
     return render(request, 'groovesweeperapp/lyrics.html', context)
