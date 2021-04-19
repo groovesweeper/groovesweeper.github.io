@@ -11,13 +11,12 @@
 
 	<body>
 		{% include "groovesweeperapp/navBar.html" %}
-		<h1 class = "text-center">Results Page for "{{query}}"</h1>
+		<h1 class = "text-center">Results for "{{query}}"</h1>
 		<div class = "container">
 		<div class = "row justify-content-center">
 			<div class = "col-auto border-right rounded"
 			style = "background-color: #fff2cc;
-					padding-top: 15px;
-					padding-bottom: 15px;">
+					padding: 30px;">
 				<table>
 					{% for obj in results %}
 					<tr class = "clickable-row {{obj.is_explicit}}-row" onclick="window.location='/{{obj.id}}/lyrics'">
