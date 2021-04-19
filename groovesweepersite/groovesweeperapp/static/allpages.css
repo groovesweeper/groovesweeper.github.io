@@ -5,6 +5,98 @@ h1{
 	margin-top : 10px;
 	margin-bottom: 10px;
 }
-label .id_term{
-	font-weight: bold!important;
+
+hr {
+	background-color: black;
+}
+
+
+/******************************/
+/****  CSS FOR INDEX.HTML  ****/
+/******************************/
+
+
+label[for=id_term] {
+	display:none;
+}
+
+label[for=id_to_add] {
+	display:none;
+}
+
+.index-search {
+	display:inline;
+}
+
+.index-bar #id_term {
+	background-color: #ffe599;
+	border:5px solid black;
+	width:60%;
+}
+
+.index-search button {
+	display:none;
+}
+.index-bar button {
+		border:5px solid black;
+		margin-left: -5px;
+		background-color: #f1c232;
+}
+
+.index-bar {
+		display:inline-block;
+		width:100%;
+		float:left;
+		text-align:center;
+}
+
+.modal-content {
+	background-color: #ffe599;
+}
+
+.modal-header {
+	text-align:center;
+	border-bottom:2px solid black;
+}
+
+.index-preset-filter {
+	display:inline-block;
+	width:100%;
+}
+
+.index-preset-filter p {
+	width:75%;
+	display:inline-block;
+}
+
+.index-preset-filter input {
+	float:right;
+	background-color: #f1c232;
+}
+
+.index-preset-filter form {
+	display:inline-block;
+	float:right;
+}
+
+.index-preset-filter hr {
+	width:75%;
+}
+
+.filter-buttons {
+	display:flex;
+	max-width:100%;
+}
+
+.filter-buttons button {
+	margin:2px;
+	flex:none;
+}
+
+.filter-add-word {
+	text-align:center;
+}
+
+.filter-add-word button {
+	background-color: #f1c232;
 }
