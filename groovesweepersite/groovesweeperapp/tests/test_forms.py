@@ -2,6 +2,9 @@ from django.test import SimpleTestCase
 from groovesweeperapp.forms import SongQueryForm, FilterForm
 from django import forms
 
+"""
+Testing the models. Making sure thta validation on sizes and data types work as expected.
+"""
 class TestForms(SimpleTestCase):
 
 	def test_SongQueryForm_valid(self):

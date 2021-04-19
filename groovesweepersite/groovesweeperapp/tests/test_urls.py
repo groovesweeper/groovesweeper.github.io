@@ -1,7 +1,10 @@
 from django.test import SimpleTestCase
 from django.urls import reverse, resolve
 from groovesweeperapp.views import homeView, lyricsView, resultsView
-
+"""
+Testing that each URL is resolved to the correct location, and that the correct views are called
+when the URLs are resolved
+"""
 class TestUrls(SimpleTestCase):
 
 	def test_home_url_is_resolved(self):

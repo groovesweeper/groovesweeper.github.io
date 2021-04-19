@@ -2,6 +2,9 @@ from django.test import TestCase, SimpleTestCase
 from groovesweeperapp.models import SongQueryModel, SongModel, SongManager
 from django.core.exceptions import ValidationError
 
+"""
+Testing the models. Making sure thta validation on sizes and data types work as expected.
+"""
 
 class TestModels(TestCase):
 
