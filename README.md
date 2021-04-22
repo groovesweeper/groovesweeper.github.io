@@ -6,7 +6,7 @@ GrooveSweeper is simple to set up and easy to use.
 
 * First, create an account on `https://genius.com/api-clients` and select "Create new API" in the sidebar. You can enter whatever you choose into the fields, as long as there is a valid http:// website in the App URL (`http://example.com` for instance)
 
-* Next, find a file named `template_client_details.txt` in the directory `/groovesweepersite/groovesweeperapp/src/model`. Replace the <bracketed> information with the fields from the genius API client and save the file in the same directory as `client_details.txt`
+* Next, find a file named `template_client_details.txt` in the directory `/groovesweepersite/groovesweeperapp/src/model`. Replace the bracketed information with the fields from the genius API client and save the file in the same directory as `client_details.txt`
 
 * Next, find a file in `/groovesweepersite/groovesweepersite/` called `template_local_settings.py`. Replace the `<SECRET KEY>` in the brackets with a string randomly generated from this website `https://miniwebtool.com/django-secret-key-generator/`. Save this edited file in the same directory as `local_settings.py`
 
