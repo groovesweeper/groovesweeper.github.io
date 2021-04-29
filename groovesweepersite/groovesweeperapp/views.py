@@ -1,3 +1,38 @@
+""" The 'views' module controls what is reactively displayed on the html pages
+
+homeView :
+    This is the view  when first arriving on the site. It uses the index.html
+    template. It has the mod arg to use when the mod should be opened upon load
+
+    term_form : Form representing main search bar
+    filter_form : Form representing buttons on modal
+    7dw : string containing seven dirty words
+    common_swears : string containing our common swear words
+    full_filter : All currently filtered words
+    all7 : Checks if 7 dirty words are in filter
+    all_common : Checks if common swear words are in filter
+    start_modal : Notifies whether to start the modal or not
+
+resultsView :
+    The view showing the search results. It uses results.html as a template. It
+    also takes care of storing song objects in the DB to use on lyrics
+
+    results_list : the 10 songs from results and all relevant data about them
+    query : Search term from home page, also in url
+
+lyricsView :
+    The view showing the lyrics of the given song. It uses lyrics.html as the
+    template. It pulls information about the song from its DB entry which was
+    generated on resultsView
+
+    explicit : String containing all explicit words present
+    name : Name of song
+    artist : Name of artist
+    lyrics : String containing all lyrics
+    geniusurl : Link to genius.com lyrics page
+    song_status : Bool holding True if song is dirty, False if clean
+"""
+
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse

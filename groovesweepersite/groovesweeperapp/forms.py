@@ -1,3 +1,8 @@
+"""
+This stores the forms to be used on the views page that allow interfacing
+between the html and Django backend
+"""
+
 from django import forms
 from .models import SongQueryModel
 import lyricsgenius
@@ -9,6 +14,9 @@ class SongQueryForm(forms.ModelForm):
     SongQueryModel
     """
     class Meta:
+        """
+        Holds metadata for the SongQueryForm
+        """
         model = SongQueryModel
         fields = '__all__'
         widgets = {

@@ -1,3 +1,7 @@
+"""
+Stores models, which are the interface Django uses to store data in the database
+"""
+
 from django.db import models
 
 # Create your models here.
