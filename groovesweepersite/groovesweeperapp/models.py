@@ -10,7 +10,8 @@ class SongManager(models.Manager):
     This manager makes it simple to instantiate a SongModel object in views
     """
     def createSong(self, sname, sartist, slyrics, sexplicit, surl, sid):
-        song_model = self.create(name=sname, artist=sartist, lyrics=slyrics, explicit_words=sexplicit, url=surl, db_song_id=sid)
+        song_model = self.create(name=sname, artist=sartist, lyrics=slyrics, \
+         explicit_words=sexplicit, url=surl, db_song_id=sid)
         return song_model
 
 class SongModel(models.Model):

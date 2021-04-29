@@ -140,7 +140,8 @@ def resultsView(request, query):
         if lyrics != '':
             # Here we create the song object, used for its class methods
             result = Song(lyrics,
-                    for_ret['primary_artist']['name'], for_ret['full_title'], for_ret['url'])
+                    for_ret['primary_artist']['name'], for_ret['full_title'], \
+                    for_ret['url'])
             results_list[i] = dict()
             results_list[i]['name'] = result.getName()
             results_list[i]['artist'] = result.getArtist()
@@ -173,8 +174,8 @@ def resultsView(request, query):
 
 def lyricsView(request, song_id):
     """
-    lyricsView shows us the specified song's lyrics, disqualifying words (if any),
-    and highlights said words in the lyrics themselves
+    lyricsView shows us the specified song's lyrics, disqualifying words
+    (if any), and highlights said words in the lyrics themselves
     """
     filter = Filter.getInstance()
 
@@ -200,7 +201,7 @@ def lyricsView(request, song_id):
         for term in chosenSong['explicit_words']:
             term = term.strip('\'')
             pattern = re.compile(re.escape(term), re.IGNORECASE)
-            chosenSong['lyrics'] = pattern.sub('<span style='background-color:red;color:white;'>%s</span>' % term, chosenSong['lyrics'])
+            chosenSong['lyrics'] = pattern.sub('<span style="background-color:red;color:white;"">%s</span>' % term, chosenSong['lyrics'])
 
     context = {
             'explicit':','.join(chosenSong['explicit_words']),
