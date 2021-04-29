@@ -18,3 +18,16 @@ GrooveSweeper relies upon lyricsgenius by John Miller (https://github.com/johnwm
 ## Development Information  
 Original Code by Elise Kulka, Jane Li, Phillip Smith, Jack Yannes, and James Young  
 Developed and Tested in Windows 10 | Version 2.0
+
+## How to run GrooveSweeper
+If GrooveSweeper is being installed for the first time on this local desktop:
+
+* First, run "__init__.py" to automatically pip install required dependencies (django v3.1, python3)
+
+* Once the required dependencies are installed, run "run.exe" to open GrooveSweeper
+
+NOTE: "__init__.py" will not have to be ran again unless required dependencies have been uninstalled
+
+
+
+
