@@ -59,7 +59,7 @@ def homeView(request, mod=''):
     filter_form = FilterForm()
 
     # This if statement is triggered if a button is pressed on the page
-    if (request.method == 'POST'):
+    if request.method == 'POST':
         if 'search-button' in request.POST:
             # This if statement is if the pressed button is the search button
             term_form = SongQueryForm(request.POST)
@@ -147,7 +147,7 @@ def resultsView(request, query):
             results_list[i]['num_explicit'] = result.getNumOfExplicitWords()
             # This if statement is used to specify css for hovering over the
             # results on the page
-            if (results_list[i]['num_explicit']):
+            if results_list[i]['num_explicit']:
                 results_list[i]['is_explicit'] = 'explicit'
             else:
                 results_list[i]['is_explicit'] = 'clean'
