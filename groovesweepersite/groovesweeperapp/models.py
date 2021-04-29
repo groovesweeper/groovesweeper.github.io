@@ -27,7 +27,7 @@ class SongModel(models.Model):
     objects = SongManager()
 
     def __str__(self):
-        return "{} {}".format(self.name, self.db_song_id)
+        return '{} {}'.format(self.name, self.db_song_id)
 
 
 class SongQueryModel(models.Model):

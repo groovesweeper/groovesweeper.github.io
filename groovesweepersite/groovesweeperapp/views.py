@@ -46,7 +46,7 @@ import re
 
 
 # Create your views here.
-def homeView(request, mod=""):
+def homeView(request, mod=''):
     """
     Home view when you first load the app. This page has a search bar and edit
     filter abilities
@@ -70,28 +70,28 @@ def homeView(request, mod=""):
             # This is triggerd when adding the seven dirty words
             for word in filter.getSevenDirtyWords():
                 filter.addWord(word)
-            mod = "mod"
+            mod = 'mod'
             return HttpResponseRedirect(reverse('home-mod', args=(mod,)))
         elif 'add-common' in request.POST:
             # This is triggerd when adding the common swear words
             for word in filter.getCommonSwearWords():
                 filter.addWord(word)
-            mod = "mod"
+            mod = 'mod'
             return HttpResponseRedirect(reverse('home-mod', args=(mod,)))
         elif 'add-custom' in request.POST:
             # This is triggerd when adding words from text box
             filter_form = FilterForm(request.POST)
             if filter_form.is_valid():
-                words_to_add = filter_form.cleaned_data['to_add'].lower().split(",")
+                words_to_add = filter_form.cleaned_data['to_add'].lower().split(',')
                 for word in words_to_add:
-                    if word != "":
+                    if word != '':
                         filter.addWord(word.strip().lower())
-                mod = "mod"
+                mod = 'mod'
                 return HttpResponseRedirect(reverse('home-mod', args=(mod,)))
         elif 'clear-all' in request.POST:
             # This is triggered when clearing all the words
             filter.clearAll()
-            mod = "mod"
+            mod = 'mod'
             return HttpResponseRedirect(reverse('home-mod', args=(mod,)))
         else:
             # This is triggered when removing one of the filtered words
@@ -99,7 +99,7 @@ def homeView(request, mod=""):
                 # find which word was filtered
                 if word in request.POST:
                     filter.removeWord(word)
-                    mod = "mod"
+                    mod = 'mod'
                     return HttpResponseRedirect(reverse('home-mod', args=(mod,)))
     context = {
         'term_form': term_form,
@@ -109,7 +109,7 @@ def homeView(request, mod=""):
         'full_filter': filter.getFullFilter(),
         'all7': filter.all7(),
         'all_common': filter.allCommon(),
-        'start_modal': (mod == "mod")
+        'start_modal': (mod == 'mod')
     }
     return render(request, 'groovesweeperapp/index.html', context)
 
@@ -119,12 +119,12 @@ def resultsView(request, query):
     resultsView lists the responses from the Genius query
     """
     client_details = dict()
-    with open("./groovesweeperapp/src/model/client_details.txt") as f:
+    with open('./groovesweeperapp/src/model/client_details.txt') as f:
         # this loop finds the secret client token from the Genius API
         for line in f:
-            (key, val) = line.split(":")
+            (key, val) = line.split(':')
             client_details[key] = val
-    genius = lyricsgenius.Genius(client_details["CLIENT_TOKEN"].strip('\n'))
+    genius = lyricsgenius.Genius(client_details['CLIENT_TOKEN'].strip('\n'))
 
     filter = Filter.getInstance()
 
@@ -132,12 +132,12 @@ def resultsView(request, query):
     results_list = [None] * 10
     for i in range(len(ret)):
         for_ret = ret[i]['result']
-        lyrics = ""
+        lyrics = ''
         try:
             lyrics = genius.lyrics(song_id = for_ret['id'])
         except:
-            print(for_ret['full_title'], "time out")
-        if lyrics != "":
+            print(for_ret['full_title'], 'time out')
+        if lyrics != '':
             # Here we create the song object, used for its class methods
             result = Song(lyrics,
                     for_ret['primary_artist']['name'], for_ret['full_title'], for_ret['url'])
@@ -189,7 +189,7 @@ def lyricsView(request, song_id):
         # In this case, there are explicit words in the song, some string
         # parsing must occur
         chosenSong['explicit_words'] = chosenSong['explicit_words'][1:-1]
-        chosenSong['explicit_words'] = chosenSong['explicit_words'].split(", ")
+        chosenSong['explicit_words'] = chosenSong['explicit_words'].split(', ')
         #print(type(chosenSong['explicit_words']))
         song_status = True # True = song is dirty
     else:
@@ -200,10 +200,10 @@ def lyricsView(request, song_id):
         for term in chosenSong['explicit_words']:
             term = term.strip('\'')
             pattern = re.compile(re.escape(term), re.IGNORECASE)
-            chosenSong['lyrics'] = pattern.sub("<span style='background-color:red;color:white;'>%s</span>" % term, chosenSong['lyrics'])
+            chosenSong['lyrics'] = pattern.sub('<span style='background-color:red;color:white;'>%s</span>' % term, chosenSong['lyrics'])
 
     context = {
-            'explicit':",".join(chosenSong['explicit_words']),
+            'explicit':','.join(chosenSong['explicit_words']),
             'name':chosenSong['name'],
             'artist':chosenSong['artist'],
             'lyrics':chosenSong['lyrics'],
